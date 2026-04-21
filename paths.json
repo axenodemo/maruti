@@ -1,8 +1,10 @@
 {
   "mappings": [
-    "/content/aem-boilerplate/:/"
+    "/content/maruti/:/",
+    "/content/maruti/configuration:/.helix/config.json",
+    "/content/maruti/metadata:/metadata.json"
   ],
   "includes": [
-    "/content/aem-boilerplate/"
+    "/content/maruti/"
   ]
 }
