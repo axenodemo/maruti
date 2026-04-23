@@ -1,0 +1,251 @@
+/* ============================================================
+   Car Range Block — MSIL Corporate Design System
+   Horizontal carousel of car cards with specs
+   Figma: MSIL-Corporate-CC-Pt-2, node 6124:26151
+   ============================================================ */
+
+.car-range-container .car-range-wrapper {
+  max-width: unset;
+}
+
+/* ---- Container ---- */
+.car-range {
+  padding: 0;
+  position: relative;
+}
+
+/* ---- Arena/Nexa Toggle (Figma: 295x62, 12px radius, #e9e9e9 bg) ---- */
+.car-range-toggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px;
+  border-radius: 12px;
+  background-color: rgb(233 233 233 / 50%);
+  width: fit-content;
+  margin-bottom: 32px;
+  margin-left: auto;
+}
+
+.car-range-toggle-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 18px 32px;
+  border-radius: 9px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--body-font-family);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 2px;
+  color: #1e1e1e;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.car-range-toggle-btn:hover {
+  background-color: rgb(0 0 0 / 5%);
+}
+
+.car-range-toggle-btn.active {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.car-range-toggle-btn.active:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.car-range-toggle-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.car-range-container {
+  position: relative;
+  width: 100%;
+}
+
+/* ---- Carousel Track ---- */
+.car-range-track {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 0;
+}
+
+.car-range-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---- Car Card (296px wide, 20px radius) ---- */
+.car-range-card {
+  flex: 0 0 296px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 70px;
+  padding: 50px 10px 28px;
+  border-radius: 20px;
+  background-color: #fff;
+  scroll-snap-align: start;
+  transition: box-shadow 0.2s ease;
+}
+
+.car-range-card:hover {
+  box-shadow: 0 4px 16px rgb(0 0 0 / 8%);
+}
+
+/* ---- Card Image ---- */
+.car-range-card-image {
+  width: 254px;
+  height: 114px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.car-range-card-image picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.car-range-card-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* ---- Card Content ---- */
+.car-range-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+/* Car name: Roboto Medium 20px/24px, primary blue, link */
+.car-range-card-name {
+  font-family: var(--body-font-family);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.4px;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.car-range-card-name:hover {
+  text-decoration: underline;
+}
+
+/* Description: 12px/18px, 50% black */
+.car-range-card-desc {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  letter-spacing: -0.18px;
+  color: rgb(0 0 0 / 50%);
+  margin: 0;
+}
+
+/* ---- Specs Row ---- */
+.car-range-specs {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  width: 100%;
+}
+
+.car-range-spec {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Spec divider */
+.car-range-spec + .car-range-spec {
+  padding-left: 13px;
+  border-left: 1px solid rgb(0 0 0 / 8%);
+}
+
+.car-range-spec-label {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+  letter-spacing: -0.18px;
+  color: rgb(0 0 0 / 60%);
+  text-transform: capitalize;
+}
+
+.car-range-spec-value {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+  letter-spacing: -0.16px;
+  color: #000;
+}
+
+/* ---- Scroll Button ---- */
+.car-range-scroll-btn {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgb(0 0 0 / 10%);
+  background-color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: box-shadow 0.2s ease;
+  color: #000;
+}
+
+.car-range-scroll-btn:hover {
+  box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+}
+
+.car-range-scroll-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.car-range-scroll-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ---- Mobile ---- */
+@media (width < 768px) {
+  .car-range-card {
+    flex: 0 0 260px;
+    padding: 32px 10px 20px;
+    gap: 40px;
+  }
+
+  .car-range-card-image {
+    width: 220px;
+    height: 100px;
+  }
+
+  .car-range-scroll-btn {
+    display: none;
+  }
+}

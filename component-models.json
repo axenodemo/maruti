@@ -142,6 +142,26 @@
     ]
   },
   {
+    "id": "car-range-item",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Car Image",
+        "multi": false
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Car Details",
+        "valueType": "string",
+        "description": "Car name as H3 link, description paragraph, specs as 'Engine: value | Power: value | Mileage: value'"
+      }
+    ]
+  },
+  {
     "id": "card",
     "fields": [
       {

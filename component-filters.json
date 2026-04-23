@@ -15,7 +15,14 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "car-range"
+    ]
+  },
+  {
+    "id": "car-range",
+    "components": [
+      "car-range-item"
     ]
   },
   {

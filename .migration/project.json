@@ -4,5 +4,6 @@
   "aemSitePath": "/content/maruti",
   "aemAssetsFolderPath": "/content/dam/maruti",
   "aemSiteName": "maruti",
-  "aemSiteTitle": "Maruti"
+  "aemSiteTitle": "Maruti",
+  "baseUrl": "https://www.marutisuzuki.com/"
 }

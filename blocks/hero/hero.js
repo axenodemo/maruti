@@ -69,68 +69,25 @@ function openVideoModal(videoUrl) {
   document.body.style.overflow = 'hidden';
 }
 
-function getVideoUrl(block) {
-  // xwalk: check for videoUrl field hint
-  const videoUrlEl = block.querySelector('[data-aue-prop="videoUrl"]');
-  if (videoUrlEl && videoUrlEl.textContent.trim()) {
-    return videoUrlEl.textContent.trim();
-  }
-
-  // Fallback: find video link in content
-  const links = Array.from(block.querySelectorAll('a'));
-  const videoLink = links.find((link) => {
-    const { href } = link;
-    return href && (href.includes('youtube') || href.includes('youtu.be') || href.includes('vimeo'));
-  });
-  if (videoLink) {
-    const url = videoLink.href;
-    const buttonContainer = videoLink.closest('.button-container');
-    if (buttonContainer) {
-      buttonContainer.remove();
-    } else {
-      videoLink.remove();
-    }
-    return url;
-  }
-  return null;
-}
-
 /**
  * Build the featured video card (bottom-right thumbnail with "Watch full Video")
- * matching Figma node 6124:26150
+ * matching Figma node 6124:26150.
+ * Uses the hero background image as the video card thumbnail.
  */
-function buildFeaturedVideoCard(block, videoUrl) {
-  // Find video thumbnail — second picture in the block, or a dedicated row
-  const rows = Array.from(block.querySelectorAll(':scope > div'));
-  let thumbnail = null;
-  let description = '';
-
-  // Look for a row that contains a second picture (video thumbnail)
-  rows.forEach((row) => {
-    const pics = row.querySelectorAll('picture');
-    const texts = row.querySelectorAll('p');
-    if (pics.length > 0 && row !== rows[0]) {
-      [thumbnail] = pics;
-      if (texts.length > 0) {
-        description = texts[0].textContent.trim();
-      }
-      row.remove();
-    }
-  });
-
+function buildFeaturedVideoCard(block, videoUrl, heroImage) {
   const card = document.createElement('div');
   card.className = 'hero-featured-video';
 
-  // Thumbnail image
-  if (thumbnail) {
-    card.append(thumbnail);
+  // Clone the hero background image as thumbnail
+  if (heroImage) {
+    const thumb = heroImage.cloneNode(true);
+    card.append(thumb);
   }
 
-  // Content overlay
+  // Content overlay with play button + description
   const content = document.createElement('div');
   content.className = 'hero-featured-video-content';
 
-  // Play button with triangle icon
   const playBtn = document.createElement('button');
   playBtn.className = 'hero-featured-video-play';
   playBtn.setAttribute('aria-label', 'Watch full video');
@@ -144,34 +101,59 @@ function buildFeaturedVideoCard(block, videoUrl) {
 
   content.append(playBtn);
 
-  if (description) {
-    const desc = document.createElement('p');
-    desc.textContent = description;
-    content.append(desc);
-  }
-
-  card.append(content);
-
-  // Click anywhere on card opens video
   card.addEventListener('click', () => {
     openVideoModal(videoUrl);
   });
 
+  card.append(content);
   block.append(card);
 }
 
-function decorateVideoPreview(block) {
-  const videoUrl = getVideoUrl(block);
-  if (!videoUrl) return;
-  buildFeaturedVideoCard(block, videoUrl);
-}
-
+/**
+ * Decorate hero block.
+ *
+ * xwalk model (3 cells after field collapsing, each cell = 1 row):
+ *   Row 1: image + imageAlt (picture with alt — collapsed)
+ *   Row 2: text (richtext — heading, subtitle, CTAs)
+ *   Row 3: videoUrl (text — YouTube/Vimeo URL, empty for default hero)
+ */
 export default function decorate(block) {
-  if (!block.querySelector(':scope > div:first-child picture')) {
+  const rows = Array.from(block.querySelectorAll(':scope > div'));
+  const imageCol = rows[0] ? rows[0].querySelector(':scope > div') : null;
+  const textCol = rows[1] ? rows[1].querySelector(':scope > div') : null;
+  const videoUrlCol = rows[2] ? rows[2].querySelector(':scope > div') : null;
+
+  // Extract the picture element for full-width background
+  const picture = imageCol ? imageCol.querySelector('picture') : null;
+
+  // Extract video URL from col 4
+  const videoUrl = videoUrlCol ? videoUrlCol.textContent.trim() : '';
+
+  // Restructure: clear block and rebuild with bg image + content overlay
+  block.textContent = '';
+
+  // Background image container
+  const bgDiv = document.createElement('div');
+  bgDiv.className = 'hero-bg';
+  if (picture) {
+    bgDiv.append(picture);
+  } else {
     block.classList.add('no-image');
   }
+  block.append(bgDiv);
 
-  if (block.classList.contains('video-preview')) {
-    decorateVideoPreview(block);
+  // Content overlay
+  const contentDiv = document.createElement('div');
+  contentDiv.className = 'hero-content';
+  if (textCol) {
+    while (textCol.firstChild) {
+      contentDiv.append(textCol.firstChild);
+    }
+  }
+  block.append(contentDiv);
+
+  // Video preview variant: build featured video card
+  if (block.classList.contains('video-preview') && videoUrl) {
+    buildFeaturedVideoCard(block, videoUrl, picture);
   }
 }
