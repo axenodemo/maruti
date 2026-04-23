@@ -1,27 +1,21 @@
 /**
  * Stats block with scroll-linked horizontal animation.
  *
- * xwalk model (2 cells per row):
- *   Row 1: image (background) + text (statement paragraph)
- *   Row 2: image (car top-view) + text (stats: "16+ | Manufacturing Plants")
- *
- * On scroll, the section pins and the car + stats marquee
- * move horizontally across the screen in sync.
+ * xwalk model (2 cells, each = 1 row with 1 column):
+ *   Row 1: image → background image
+ *   Row 2: text → richtext containing:
+ *     - Statement paragraph
+ *     - Car top-view picture (embedded in richtext)
+ *     - Stats lines as "Number | Label"
  */
 
-function parseStats(textCol) {
-  const paragraphs = Array.from(textCol.querySelectorAll('p'));
-  return paragraphs.map((p) => {
-    const text = p.textContent.trim();
-    const pipeIdx = text.indexOf('|');
-    if (pipeIdx > -1) {
-      return {
-        number: text.substring(0, pipeIdx).trim(),
-        label: text.substring(pipeIdx + 1).trim(),
-      };
-    }
-    return { number: text, label: '' };
-  });
+function parseStats(text) {
+  const specs = [];
+  const parts = text.split('|').map((p) => p.trim());
+  if (parts.length === 2) {
+    specs.push({ number: parts[0], label: parts[1] });
+  }
+  return specs;
 }
 
 function buildStatsMarquee(stats) {
@@ -51,7 +45,6 @@ function setupScrollAnimation(block, carWrap, marquee) {
   const section = block.closest('.section');
   if (!section) return;
 
-  // Total horizontal travel distance
   const travelDistance = 1200;
 
   function onScroll() {
@@ -64,7 +57,6 @@ function setupScrollAnimation(block, carWrap, marquee) {
     const traveled = viewportHeight - rect.top;
     const progress = Math.min(Math.max(traveled / totalTravel, 0), 1);
 
-    // Map progress to horizontal position: start off-right, end at center-left
     const carX = (1 - progress) * travelDistance;
     const marqueeX = (1 - progress) * travelDistance * 0.8;
 
@@ -78,20 +70,30 @@ function setupScrollAnimation(block, carWrap, marquee) {
 
 export default function decorate(block) {
   const rows = Array.from(block.querySelectorAll(':scope > div'));
-  if (rows.length < 2) return;
 
-  // Row 1: background image + statement text
+  // Row 1: background image
   const bgRow = rows[0];
-  const bgCols = Array.from(bgRow.querySelectorAll(':scope > div'));
-  const bgPicture = bgCols[0] ? bgCols[0].querySelector('picture') : null;
-  const statementCol = bgCols[1];
+  const bgCol = bgRow ? bgRow.querySelector(':scope > div') : null;
+  const bgPicture = bgCol ? bgCol.querySelector('picture') : null;
 
-  // Row 2: car image + stats data
-  const dataRow = rows[1];
-  const dataCols = Array.from(dataRow.querySelectorAll(':scope > div'));
-  const carPicture = dataCols[0] ? dataCols[0].querySelector('picture') : null;
-  const statsCol = dataCols[1];
-  const stats = statsCol ? parseStats(statsCol) : [];
+  // Row 2: richtext (statement + car picture + stats)
+  const textRow = rows[1];
+  const textCol = textRow ? textRow.querySelector(':scope > div') : null;
+
+  // Extract from richtext: statement paragraph + stats lines
+  let statementP = null;
+  const stats = [];
+
+  if (textCol) {
+    Array.from(textCol.querySelectorAll('p')).forEach((p) => {
+      const text = p.textContent.trim();
+      if (text.includes('|')) {
+        parseStats(text).forEach((s) => stats.push(s));
+      } else if (!statementP) {
+        statementP = p;
+      }
+    });
+  }
 
   // Clear and rebuild
   block.textContent = '';
@@ -104,33 +106,28 @@ export default function decorate(block) {
     block.append(bg);
   }
 
-  // Dark overlay for lower section
+  // Dark overlay
   const overlay = document.createElement('div');
   overlay.className = 'stats-overlay';
   block.append(overlay);
 
   // Statement text
-  if (statementCol) {
+  if (statementP) {
     const statement = document.createElement('div');
     statement.className = 'stats-statement';
-    while (statementCol.firstChild) {
-      statement.append(statementCol.firstChild);
-    }
+    statement.append(statementP);
     block.append(statement);
   }
 
-  // Car image (animated on scroll)
+  // Car image placeholder (decorative, scroll-animated)
   const carWrap = document.createElement('div');
   carWrap.className = 'stats-car';
-  if (carPicture) {
-    carWrap.append(carPicture);
-  }
   block.append(carWrap);
 
-  // Stats marquee (animated on scroll)
+  // Stats marquee (scroll-animated)
   const marquee = buildStatsMarquee(stats);
   block.append(marquee);
 
-  // Wire up scroll-linked animation
+  // Scroll animation
   setupScrollAnimation(block, carWrap, marquee);
 }

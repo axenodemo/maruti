@@ -20,7 +20,8 @@
       "image-slider",
       "highlights",
       "stats",
-      "explore-cards"
+      "explore-cards",
+      "contact-cards"
     ]
   },
   {
@@ -48,6 +49,12 @@
       "image",
       "button",
       "title"
+    ]
+  },
+  {
+    "id": "contact-cards",
+    "components": [
+      "contact-card"
     ]
   },
   {

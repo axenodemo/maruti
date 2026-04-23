@@ -16,7 +16,9 @@
    ============================================================ */
 
 :root {
-  /* ---- Brand Colors ---- */
+  /* ============================================================
+     Figma Variable Collection: 🎨 Brand Colors (Light mode)
+     ============================================================ */
 
   /* Neutrals */
   --color-black: #000;
@@ -41,7 +43,7 @@
   --color-error: #c70f12;
   --color-caution: #8e670b;
   --color-success: #257500;
-  --color-info: #1a4993;
+  --color-info: #171c8f;
 
   /* ---- Mapped EDS Colors ---- */
   --background-color: var(--color-tertiary);
@@ -51,50 +53,52 @@
   --link-color: var(--color-primary);
   --link-hover-color: var(--color-primary-hover);
 
-  /* ---- Fonts ---- */
+  /* ============================================================
+     Figma Variable Collection: 📝 Typography (Base mode)
+     ============================================================ */
+
+  /* Font family */
   --body-font-family: 'Roboto', roboto-fallback, sans-serif;
   --heading-font-family: 'Roboto', roboto-fallback, sans-serif;
   --display-font-family: 'Inter Display', inter-display-fallback, sans-serif;
 
-  /* ---- Typography Scale (Mobile-first) ---- */
+  /* Font weights */
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
 
-  /* Body sizes */
+  /* Typography scale (mobile-first) */
   --body-font-size-m: 16px;
   --body-font-size-s: 14px;
   --body-font-size-xs: 12px;
   --body-font-size-xxs: 10px;
 
   /* Heading sizes (mobile) */
-  --heading-font-size-xxl: 42px;
-  --heading-font-size-xl: 36px;
-  --heading-font-size-l: 29px;
-  --heading-font-size-m: 24px;
-  --heading-font-size-s: 22px;
-  --heading-font-size-xs: 18px;
+  --heading-font-size-xxl: 32px;
+  --heading-font-size-xl: 24px;
+  --heading-font-size-l: 18px;
+  --heading-font-size-m: 18px;
+  --heading-font-size-s: 16px;
+  --heading-font-size-xs: 14px;
 
-  /* Display sizes (mobile) */
+  /* Display sizes (mobile — scaled down from desktop) */
+  --display-font-size-4xl: 48px;
   --display-font-size-3xl: 42px;
-  --display-font-size-2xl: 42px;
-  --display-font-size-xl: 36px;
-  --display-font-size-l: 28px;
+  --display-font-size-2xl: 36px;
+  --display-font-size-xl: 32px;
   --display-font-size-lg: 28px;
-  --display-font-size-m: 24px;
 
-  /* ---- Line Heights ---- */
+  /* Line Heights */
   --body-line-height: 1.3125;
-  --body-line-height-s: 1.214;
-  --body-line-height-xs: 1.5;
   --heading-line-height: 1.25;
 
-  /* ---- Letter Spacing ---- */
+  /* Letter Spacing */
   --body-letter-spacing: -0.16px;
-  --body-letter-spacing-medium: 0.16px;
-  --body-letter-spacing-s: -0.42px;
-  --body-letter-spacing-xs: -0.18px;
   --heading-letter-spacing: 0;
-  --heading-letter-spacing-tight: -0.22px;
 
-  /* ---- Spacing Scale ---- */
+  /* ============================================================
+     Figma Variable Collection: 📏 Spacing (Base mode)
+     ============================================================ */
   --spacing-xs: 4px;
   --spacing-sm: 8px;
   --spacing-md: 12px;
@@ -103,14 +107,19 @@
   --spacing-2xl: 32px;
   --spacing-3xl: 48px;
 
-  /* ---- Border Radius ---- */
+  /* ============================================================
+     Figma Variable Collection: ⚪ Radius (Base mode)
+     ============================================================ */
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 24px;
   --radius-2xl: 32px;
+  --radius-full: 9999px;
 
-  /* ---- Button Tokens ---- */
+  /* ============================================================
+     Figma Variable Collection: 🔘 Button Tokens (Base mode)
+     ============================================================ */
   --button-bg-primary: var(--color-primary);
   --button-bg-primary-hover: var(--color-primary-hover);
   --button-text-primary: var(--color-tertiary);
@@ -143,6 +152,11 @@
   --focus-outline: 2px solid var(--color-primary);
   --focus-outline-offset: 2px;
 
+  /* ---- Grid System ---- */
+  --grid-columns: 4;
+  --grid-gutter: 16px;
+  --grid-margin: 16px;
+
   /* ---- Nav ---- */
   --nav-height: 64px;
 }
@@ -160,29 +174,37 @@
   src: local('Arial');
 }
 
-/* ---- Desktop Typography (min-width: 992px) ---- */
+/* ---- Tablet Grid (8 columns, min-width: 768px) ---- */
+@media (width >= 768px) {
+  :root {
+    --grid-columns: 8;
+    --grid-gutter: 24px;
+    --grid-margin: 32px;
+  }
+}
+
+/* ---- Desktop Typography + Grid (12 columns, min-width: 992px) ---- */
 @media (width >= 992px) {
   :root {
-    /* Body sizes stay the same on desktop */
-    --body-font-size-m: 16px;
-    --body-font-size-s: 14px;
-    --body-font-size-xs: 12px;
+    /* Grid: 12 columns */
+    --grid-columns: 12;
+    --grid-gutter: 24px;
+    --grid-margin: 56px;
 
-    /* Heading sizes (desktop) */
+    /* Heading sizes (desktop — from Figma typography vars) */
     --heading-font-size-xxl: 32px;
     --heading-font-size-xl: 24px;
-    --heading-font-size-l: 22px;
-    --heading-font-size-m: 20px;
-    --heading-font-size-s: 18px;
-    --heading-font-size-xs: 16px;
+    --heading-font-size-l: 18px;
+    --heading-font-size-m: 18px;
+    --heading-font-size-s: 16px;
+    --heading-font-size-xs: 14px;
 
-    /* Display sizes (desktop) */
-    --display-font-size-3xl: 140px;
-    --display-font-size-2xl: 96px;
-    --display-font-size-xl: 60px;
-    --display-font-size-l: 50px;
+    /* Display sizes (desktop — from Figma typography vars) */
+    --display-font-size-4xl: 96px;
+    --display-font-size-3xl: 84px;
+    --display-font-size-2xl: 72px;
+    --display-font-size-xl: 64px;
     --display-font-size-lg: 48px;
-    --display-font-size-m: 36px;
   }
 }
 
@@ -201,6 +223,7 @@ body {
   letter-spacing: var(--body-letter-spacing);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 body.appear {
@@ -425,7 +448,7 @@ main > .section {
 main > .section > div {
   max-width: 1200px;
   margin: auto;
-  padding: 0 var(--spacing-xl);
+  padding: 0 var(--grid-margin);
 }
 
 main > .section:first-of-type {
@@ -595,10 +618,77 @@ main .section.tech-fold > div > p:last-of-type {
   }
 }
 
+/* Contact section — dark navy with heading left + cards right */
+main .section.contact-bg {
+  background-color: var(--color-primary-hover);
+  color: #fff;
+  margin: 0;
+  padding: 60px 0;
+}
+
+main .section.contact-bg > div {
+  padding: 0 var(--grid-margin);
+}
+
+main .section.contact-bg > .default-content-wrapper,
+main .section.contact-bg > .contact-cards-wrapper {
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+main .section.contact-bg > .default-content-wrapper {
+  padding-top: 30px;
+  padding-bottom: 20px;
+}
+
+main .section.contact-bg > .contact-cards-wrapper {
+  justify-content: flex-end;
+}
+
+main .section.contact-bg h2 {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 40px;
+  color: #fff;
+  margin: 0 0 27px;
+}
+
+main .section.contact-bg > .default-content-wrapper > div > p {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+  letter-spacing: -0.16px;
+  color: #fff;
+  opacity: 0.4;
+  margin: 0;
+}
+
+@media (width < 768px) {
+  main .section.contact-bg {
+    flex-direction: column;
+  }
+
+  main .section.contact-bg > .default-content-wrapper {
+    padding-top: 0;
+  }
+}
+
 /* ============================================================
    Our Range Section — Car range carousel header
    Figma: node 6124:26151
    ============================================================ */
+
+main .section.car-range-container > .default-content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0 16px;
+  margin-bottom: 40px;
+}
 
 main .section.car-range-container > div > p:first-child {
   font-family: var(--body-font-family);
@@ -610,6 +700,7 @@ main .section.car-range-container > div > p:first-child {
   opacity: 0.4;
   margin: 0 0 20px;
   font-style: normal;
+  width: 100%;
 }
 
 main .section.car-range-container > div > p:first-child em {
@@ -622,7 +713,7 @@ main .section.car-range-container h2 {
   font-size: 36px;
   line-height: 44px;
   color: #000;
-  margin: 0 0 40px;
+  margin: 0;
   letter-spacing: -1.5px;
 }
 

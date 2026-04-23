@@ -41,6 +41,10 @@
             {
               "name": "Highlights Background",
               "value": "highlights-bg"
+            },
+            {
+              "name": "Contact Background",
+              "value": "contact-bg"
             }
           ]
         }
@@ -63,7 +67,8 @@
         "image-slider",
         "highlights",
         "stats",
-        "explore-cards"
+        "explore-cards",
+        "contact-cards"
       ]
     }
   ]

@@ -184,9 +184,17 @@ export default function decorate(block) {
   // Clear block and rebuild
   block.textContent = '';
 
-  // Toggle (only if multiple datasets)
+  // Move toggle into the section's default-content-wrapper (next to heading)
   const toggle = buildToggle(datasets, track);
-  if (toggle) block.append(toggle);
+  if (toggle) {
+    const section = block.closest('.section');
+    const dcw = section ? section.querySelector('.default-content-wrapper') : null;
+    if (dcw) {
+      dcw.append(toggle);
+    } else {
+      block.append(toggle);
+    }
+  }
 
   const container = document.createElement('div');
   container.className = 'car-range-container';
