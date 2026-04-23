@@ -208,6 +208,26 @@
     ]
   },
   {
+    "id": "explore-card",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Card Image",
+        "multi": false
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Card Content",
+        "valueType": "string",
+        "description": "H3 title as link + description paragraph"
+      }
+    ]
+  },
+  {
     "id": "fragment",
     "fields": [
       {
@@ -302,6 +322,26 @@
         "label": "Slide Content",
         "valueType": "string",
         "description": "Slide title as H3 and description as paragraph"
+      }
+    ]
+  },
+  {
+    "id": "stats",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Background Image",
+        "multi": false
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Statement Text & Stats",
+        "valueType": "string",
+        "description": "Statement paragraph, then stats as 'Number | Label' per line"
       }
     ]
   }

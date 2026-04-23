@@ -18,7 +18,9 @@
       "fragment",
       "car-range",
       "image-slider",
-      "highlights"
+      "highlights",
+      "stats",
+      "explore-cards"
     ]
   },
   {
@@ -46,6 +48,12 @@
       "image",
       "button",
       "title"
+    ]
+  },
+  {
+    "id": "explore-cards",
+    "components": [
+      "explore-card"
     ]
   },
   {
