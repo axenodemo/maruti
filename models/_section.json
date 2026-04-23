@@ -37,6 +37,10 @@
             {
               "name": "Tech Fold",
               "value": "tech-fold"
+            },
+            {
+              "name": "Highlights Background",
+              "value": "highlights-bg"
             }
           ]
         }
@@ -56,7 +60,8 @@
         "columns",
         "fragment",
         "car-range",
-        "image-slider"
+        "image-slider",
+        "highlights"
       ]
     }
   ]

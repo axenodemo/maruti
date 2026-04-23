@@ -140,6 +140,10 @@
           {
             "name": "Tech Fold",
             "value": "tech-fold"
+          },
+          {
+            "name": "Highlights Background",
+            "value": "highlights-bg"
           }
         ]
       }
@@ -258,6 +262,26 @@
             "value": "video-preview"
           }
         ]
+      }
+    ]
+  },
+  {
+    "id": "highlights-card",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Card Image",
+        "multi": false
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Card Content",
+        "valueType": "string",
+        "description": "H4 category name, then H3 items as links. First item can have a description paragraph."
       }
     ]
   },

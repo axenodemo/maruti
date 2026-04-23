@@ -17,7 +17,8 @@
       "columns",
       "fragment",
       "car-range",
-      "image-slider"
+      "image-slider",
+      "highlights"
     ]
   },
   {
@@ -45,6 +46,12 @@
       "image",
       "button",
       "title"
+    ]
+  },
+  {
+    "id": "highlights",
+    "components": [
+      "highlights-card"
     ]
   },
   {

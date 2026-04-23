@@ -486,6 +486,43 @@ main .section.primary a:any-link {
   color: var(--color-accent-yellow);
 }
 
+/* Highlights section — dark navy background with car image overlay */
+main .section.highlights-bg {
+  background-color: var(--color-primary-hover);
+  color: #fff;
+  margin: 0;
+  padding: 80px 0 60px;
+  text-align: center;
+}
+
+main .section.highlights-bg h2 {
+  font-family: var(--body-font-family);
+  font-weight: 300;
+  font-size: 36px;
+  line-height: 44px;
+  color: #fff;
+  margin: 0 auto 24px;
+  max-width: 600px;
+}
+
+main .section.highlights-bg > div > p {
+  font-family: var(--body-font-family);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.16px;
+  color: rgb(255 255 255 / 60%);
+  margin: 0 auto 40px;
+  max-width: 611px;
+}
+
+@media (width >= 992px) {
+  main .section.highlights-bg h2 {
+    font-size: 48px;
+    line-height: 56px;
+  }
+}
+
 /* ============================================================
    Scroll Fade-In Animation
    Sections with .fade-in class animate on viewport entry
@@ -555,5 +592,48 @@ main .section.tech-fold > div > p:last-of-type {
   main .section.tech-fold h2 {
     font-size: 48px;
     line-height: 56px;
+  }
+}
+
+/* ============================================================
+   Our Range Section — Car range carousel header
+   Figma: node 6124:26151
+   ============================================================ */
+
+main .section.car-range-container > div > p:first-child {
+  font-family: var(--body-font-family);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.4px;
+  color: #000;
+  opacity: 0.4;
+  margin: 0 0 20px;
+  font-style: normal;
+}
+
+main .section.car-range-container > div > p:first-child em {
+  font-style: normal;
+}
+
+main .section.car-range-container h2 {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 44px;
+  color: #000;
+  margin: 0 0 40px;
+  letter-spacing: -1.5px;
+}
+
+main .section.car-range-container h2 strong {
+  color: var(--color-primary);
+  font-weight: 400;
+}
+
+@media (width >= 992px) {
+  main .section.car-range-container h2 {
+    font-size: 50px;
+    line-height: 60px;
   }
 }
