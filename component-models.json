@@ -196,14 +196,14 @@
         "component": "reference",
         "valueType": "string",
         "name": "image",
-        "label": "Image",
+        "label": "Background Image",
         "multi": false
       },
       {
         "component": "text",
         "valueType": "string",
         "name": "imageAlt",
-        "label": "Alt",
+        "label": "Alt Text",
         "value": ""
       },
       {
@@ -212,6 +212,28 @@
         "value": "",
         "label": "Text",
         "valueType": "string"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "videoUrl",
+        "label": "Video URL",
+        "description": "YouTube or Vimeo URL. Used with Video Preview variant to show a featured video card."
+      },
+      {
+        "component": "select",
+        "name": "classes",
+        "label": "Hero Variant",
+        "options": [
+          {
+            "name": "Default",
+            "value": ""
+          },
+          {
+            "name": "Video Preview",
+            "value": "video-preview"
+          }
+        ]
       }
     ]
   }
