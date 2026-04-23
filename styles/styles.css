@@ -485,3 +485,75 @@ main .section.primary h6 {
 main .section.primary a:any-link {
   color: var(--color-accent-yellow);
 }
+
+/* ============================================================
+   Scroll Fade-In Animation
+   Sections with .fade-in class animate on viewport entry
+   ============================================================ */
+
+main .section.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+main .section.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============================================================
+   Tech Fold Section — Figma: node 6124:26173
+   Large statement text + image slider
+   ============================================================ */
+
+main .section.tech-fold {
+  padding: 80px 0;
+  margin: 0;
+}
+
+/* Subtitle: Roboto Medium 14px/17px, #171C8F, uppercase */
+main .section.tech-fold > div > p:first-child {
+  font-family: var(--body-font-family);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  margin: 0 0 20px;
+  opacity: 0.9;
+}
+
+/* Large body text: Roboto Light 48px/56px, #080C0B */
+main .section.tech-fold h2 {
+  font-family: var(--body-font-family);
+  font-weight: 300;
+  font-size: 32px;
+  line-height: 40px;
+  color: #080c0b;
+  margin: 0 0 32px;
+  max-width: 1147px;
+}
+
+/* Faded portion of the statement text — opacity drops to ~40% */
+main .section.tech-fold h2 em {
+  font-style: normal;
+  color: rgb(8 12 11 / 40%);
+}
+
+/* Sub-text: Roboto Light 16px/18px */
+main .section.tech-fold > div > p:last-of-type {
+  font-family: var(--body-font-family);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 18px;
+  color: #091113;
+  margin: 0 0 40px;
+}
+
+@media (width >= 992px) {
+  main .section.tech-fold h2 {
+    font-size: 48px;
+    line-height: 56px;
+  }
+}

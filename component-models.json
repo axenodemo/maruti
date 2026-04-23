@@ -136,6 +136,10 @@
           {
             "name": "Highlight",
             "value": "highlight"
+          },
+          {
+            "name": "Tech Fold",
+            "value": "tech-fold"
           }
         ]
       }
@@ -254,6 +258,26 @@
             "value": "video-preview"
           }
         ]
+      }
+    ]
+  },
+  {
+    "id": "image-slider-slide",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Slide Image",
+        "multi": false
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Slide Content",
+        "valueType": "string",
+        "description": "Slide title as H3 and description as paragraph"
       }
     ]
   }

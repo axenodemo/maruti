@@ -33,6 +33,10 @@
             {
               "name": "Highlight",
               "value": "highlight"
+            },
+            {
+              "name": "Tech Fold",
+              "value": "tech-fold"
             }
           ]
         }
@@ -51,7 +55,8 @@
         "cards",
         "columns",
         "fragment",
-        "car-range"
+        "car-range",
+        "image-slider"
       ]
     }
   ]
