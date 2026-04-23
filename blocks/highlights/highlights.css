@@ -1,0 +1,249 @@
+/* ============================================================
+   Highlights Block — MSIL Corporate Design System
+   Dark navy carousel: center card visible, sides peek
+   Figma: MSIL-Corporate-CC-Pt-2, node 6124:26181
+   ============================================================ */
+
+.highlights-container .highlights-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+/* ---- Viewport: overflow visible for peek effect ---- */
+.highlights-viewport {
+  width: 100%;
+  overflow: hidden;
+}
+
+.highlights-track {
+  display: flex;
+  gap: 24px;
+  transition: transform 0.5s ease;
+  padding: 0 calc(50% - 414px);
+}
+
+/* ---- Card (828x433, 29px radius, white bg) ---- */
+.highlights-card {
+  flex: 0 0 828px;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  padding: 8px 8px 8px 18px;
+  min-height: 433px;
+  border-radius: 29px;
+  background-color: #fff;
+  box-sizing: border-box;
+  transition: opacity 0.4s ease;
+  text-align: left;
+}
+
+/* ---- Left: Text Content ---- */
+.highlights-card-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 343px;
+  min-width: 280px;
+  flex-shrink: 0;
+  padding: 20px 0;
+}
+
+/* Category label: Roboto 18px, 70% black */
+.highlights-card-category {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 28px;
+  letter-spacing: -0.54px;
+  color: rgb(0 0 0 / 70%);
+}
+
+/* ---- Items List ---- */
+.highlights-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding-left: 14px;
+}
+
+.highlights-card-item {
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+  align-items: flex-start;
+}
+
+/* Number: 22px */
+.highlights-card-num {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 24px;
+  letter-spacing: -0.22px;
+  color: #d8d8d8;
+  width: 26px;
+  flex-shrink: 0;
+}
+
+/* Item body */
+.highlights-card-item-body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Title: 22px */
+.highlights-card-item-title {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 24px;
+  letter-spacing: -0.22px;
+  color: #000;
+  text-decoration: none;
+}
+
+.highlights-card-item-title:hover {
+  text-decoration: underline;
+}
+
+/* Description: 14px, 60% opacity */
+.highlights-card-item-desc {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.42px;
+  color: rgb(0 0 0 / 70%);
+  opacity: 0.6;
+  margin: 0;
+}
+
+/* Read more link */
+.highlights-card-readmore {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+  letter-spacing: -0.16px;
+  color: var(--color-primary);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.highlights-card-readmore:hover {
+  text-decoration: underline;
+}
+
+/* Inactive: hide desc + readmore */
+.highlights-card-item .highlights-card-item-body .highlights-card-item-desc,
+.highlights-card-item .highlights-card-item-body .highlights-card-readmore {
+  display: none;
+}
+
+/* Active: show desc + readmore, blue colors */
+.highlights-card-item.active .highlights-card-item-body .highlights-card-item-desc,
+.highlights-card-item.active .highlights-card-item-body .highlights-card-readmore {
+  display: block;
+}
+
+.highlights-card-item.active {
+  margin-bottom: 15px;
+}
+
+.highlights-card-item.active .highlights-card-num {
+  color: var(--color-primary);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+}
+
+.highlights-card-item.active .highlights-card-item-title {
+  color: var(--color-primary);
+}
+
+/* ---- Right: Image (flex fill, 28px radius) ---- */
+.highlights-card-image {
+  flex: 1;
+  min-width: 0;
+  border-radius: 28px;
+  overflow: hidden;
+}
+
+.highlights-card-image picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.highlights-card-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---- Nav Arrows only (no dots) — centered below cards ---- */
+.highlights-nav {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.highlights-nav-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 1.5px solid rgb(255 255 255 / 40%);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.highlights-nav-btn:hover {
+  background: rgb(255 255 255 / 10%);
+  border-color: rgb(255 255 255 / 70%);
+}
+
+.highlights-nav-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.highlights-nav-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ---- Mobile ---- */
+@media (width < 768px) {
+  .highlights-track {
+    padding: 0 20px;
+  }
+
+  .highlights-card {
+    flex: 0 0 calc(100vw - 40px);
+    flex-direction: column;
+    min-height: auto;
+    padding: 16px;
+  }
+
+  .highlights-card-text {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .highlights-card-image {
+    width: 100%;
+    height: 250px;
+    border-radius: 16px;
+  }
+}

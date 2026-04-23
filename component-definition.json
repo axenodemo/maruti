@@ -83,6 +83,36 @@
       "id": "blocks",
       "components": [
         {
+          "title": "Car Range",
+          "id": "car-range",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Car Range",
+                  "filter": "car-range"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Car Range Item",
+          "id": "car-range-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Car Range Item",
+                  "model": "car-range-item"
+                }
+              }
+            }
+          }
+        },
+        {
           "title": "Cards",
           "id": "cards",
           "plugins": {
@@ -152,6 +182,66 @@
                 "template": {
                   "name": "Hero",
                   "model": "hero"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Highlights",
+          "id": "highlights",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Highlights",
+                  "filter": "highlights"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Highlights Card",
+          "id": "highlights-card",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Highlights Card",
+                  "model": "highlights-card"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Image Slider",
+          "id": "image-slider",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Image Slider",
+                  "filter": "image-slider"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Image Slider Slide",
+          "id": "image-slider-slide",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Image Slider Slide",
+                  "model": "image-slider-slide"
                 }
               }
             }

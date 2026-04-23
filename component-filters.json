@@ -15,7 +15,16 @@
       "hero",
       "cards",
       "columns",
-      "fragment"
+      "fragment",
+      "car-range",
+      "image-slider",
+      "highlights"
+    ]
+  },
+  {
+    "id": "car-range",
+    "components": [
+      "car-range-item"
     ]
   },
   {
@@ -37,6 +46,18 @@
       "image",
       "button",
       "title"
+    ]
+  },
+  {
+    "id": "highlights",
+    "components": [
+      "highlights-card"
+    ]
+  },
+  {
+    "id": "image-slider",
+    "components": [
+      "image-slider-slide"
     ]
   }
 ]

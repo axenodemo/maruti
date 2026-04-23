@@ -1,0 +1,221 @@
+/* ============================================================
+   Image Slider Block — MSIL Corporate Design System
+   Full-width carousel with slide counter, progress bars, arrows
+   Figma: MSIL-Corporate-CC-Pt-2, node 6124:26179
+   ============================================================ */
+
+/* ---- Container ---- */
+.image-slider {
+  padding: 0;
+}
+
+.image-slider-container {
+  position: relative;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+/* ---- Slides ---- */
+.image-slider-slides {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1246 / 648;
+  min-height: 400px;
+}
+
+.image-slider-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.image-slider-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Slide background image */
+.image-slider-slide-bg {
+  position: absolute;
+  inset: 0;
+}
+
+.image-slider-slide-bg picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.image-slider-slide-bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Gradient overlay for text readability */
+.image-slider-slide-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgb(0 0 0 / 70%) 0%,
+    rgb(0 0 0 / 30%) 40%,
+    transparent 70%
+  );
+}
+
+/* ---- Slide Content (bottom-left) ---- */
+.image-slider-slide-content {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 523px;
+}
+
+/* Slide number: "01" at 20% opacity */
+.image-slider-slide-num {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 40px;
+  color: #fff;
+  opacity: 0.2;
+}
+
+/* Slide title: Roboto 32px/40px white */
+.image-slider-slide-title {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 40px;
+  color: #fff;
+  margin: 0;
+}
+
+/* Slide description: 16px/21px white */
+.image-slider-slide-desc {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+  letter-spacing: -0.16px;
+  color: #fff;
+  margin: 0;
+}
+
+/* ---- Progress Bars (top of slider) ---- */
+.image-slider-progress {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  z-index: 3;
+  display: flex;
+  gap: 10px;
+}
+
+.image-slider-progress-bar {
+  flex: 1;
+  height: 3px;
+  border-radius: 20px;
+  background-color: rgb(255 255 255 / 30%);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.image-slider-progress-bar.active {
+  background-color: #fff;
+}
+
+.image-slider-progress-bar:hover {
+  background-color: rgb(255 255 255 / 60%);
+}
+
+.image-slider-progress-bar.active:hover {
+  background-color: #fff;
+}
+
+.image-slider-progress-bar:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ---- Nav Arrows (bottom-right) ---- */
+.image-slider-nav {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  z-index: 3;
+  display: flex;
+  gap: 8px;
+}
+
+.image-slider-nav-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgb(255 255 255 / 30%);
+  background: rgb(0 0 0 / 20%);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.image-slider-nav-btn:hover {
+  background: rgb(0 0 0 / 40%);
+  border-color: rgb(255 255 255 / 50%);
+}
+
+.image-slider-nav-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.image-slider-nav-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ---- Mobile ---- */
+@media (width < 768px) {
+  .image-slider-slides {
+    aspect-ratio: auto;
+    min-height: 350px;
+  }
+
+  .image-slider-slide-content {
+    bottom: 24px;
+    left: 20px;
+    max-width: calc(100% - 40px);
+  }
+
+  .image-slider-slide-title {
+    font-size: 24px;
+    line-height: 30px;
+  }
+
+  .image-slider-nav {
+    bottom: 24px;
+    right: 20px;
+  }
+
+  .image-slider-nav-btn {
+    width: 40px;
+    height: 40px;
+  }
+}

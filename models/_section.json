@@ -33,6 +33,14 @@
             {
               "name": "Highlight",
               "value": "highlight"
+            },
+            {
+              "name": "Tech Fold",
+              "value": "tech-fold"
+            },
+            {
+              "name": "Highlights Background",
+              "value": "highlights-bg"
             }
           ]
         }
@@ -50,7 +58,10 @@
         "hero",
         "cards",
         "columns",
-        "fragment"
+        "fragment",
+        "car-range",
+        "image-slider",
+        "highlights"
       ]
     }
   ]

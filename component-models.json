@@ -136,8 +136,36 @@
           {
             "name": "Highlight",
             "value": "highlight"
+          },
+          {
+            "name": "Tech Fold",
+            "value": "tech-fold"
+          },
+          {
+            "name": "Highlights Background",
+            "value": "highlights-bg"
           }
         ]
+      }
+    ]
+  },
+  {
+    "id": "car-range-item",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Car Image",
+        "multi": false
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Car Details",
+        "valueType": "string",
+        "description": "Car name as H3 link, description paragraph, specs as 'Engine: value | Power: value | Mileage: value'"
       }
     ]
   },
@@ -196,14 +224,14 @@
         "component": "reference",
         "valueType": "string",
         "name": "image",
-        "label": "Image",
+        "label": "Background Image",
         "multi": false
       },
       {
         "component": "text",
         "valueType": "string",
         "name": "imageAlt",
-        "label": "Alt",
+        "label": "Alt Text",
         "value": ""
       },
       {
@@ -212,6 +240,68 @@
         "value": "",
         "label": "Text",
         "valueType": "string"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "videoUrl",
+        "label": "Video URL",
+        "description": "YouTube or Vimeo URL. Used with Video Preview variant to show a featured video card."
+      },
+      {
+        "component": "select",
+        "name": "classes",
+        "label": "Hero Variant",
+        "options": [
+          {
+            "name": "Default",
+            "value": ""
+          },
+          {
+            "name": "Video Preview",
+            "value": "video-preview"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "highlights-card",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Card Image",
+        "multi": false
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Card Content",
+        "valueType": "string",
+        "description": "H4 category name, then H3 items as links. First item can have a description paragraph."
+      }
+    ]
+  },
+  {
+    "id": "image-slider-slide",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Slide Image",
+        "multi": false
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Slide Content",
+        "valueType": "string",
+        "description": "Slide title as H3 and description as paragraph"
       }
     ]
   }
