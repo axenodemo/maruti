@@ -23,19 +23,20 @@
   padding: 0 var(--grid-margin);
 }
 
-/* ---- Card (max 828px, 29px radius, white bg) ---- */
+/* ---- Card (max 828px, fixed 433px height, 29px radius, white bg) ---- */
 .highlights-card {
   flex: 0 0 min(828px, calc(100vw - 2 * var(--grid-margin)));
   display: flex;
   align-items: stretch;
   gap: 0;
   padding: 8px 8px 8px 18px;
-  min-height: 433px;
+  height: 433px;
   border-radius: 29px;
   background-color: #fff;
   box-sizing: border-box;
   transition: opacity 0.4s ease;
   text-align: left;
+  overflow: hidden;
 }
 
 /* ---- Left: Text Content ---- */
@@ -233,7 +234,7 @@
   .highlights-card {
     flex: 0 0 calc(100vw - 40px);
     flex-direction: column;
-    min-height: auto;
+    height: auto;
     padding: 16px;
   }
 

@@ -12,7 +12,7 @@
   position: relative;
 }
 
-/* ---- Arena/Nexa Toggle ---- */
+/* ---- Arena/Nexa Toggle — fade in from right ---- */
 .car-range-toggle {
   display: flex;
   align-items: center;
@@ -22,6 +22,14 @@
   background-color: rgb(233 233 233 / 50%);
   width: fit-content;
   flex-shrink: 0;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 350ms ease-out 500ms, transform 350ms ease-out 500ms;
+}
+
+.car-range-toggle.visible {
+  opacity: 1;
+  transform: translateX(0);
 }
 
 .car-range-toggle-btn {
@@ -67,6 +75,19 @@
   width: 100%;
 }
 
+/* Right-edge fade gradient — hints at more cards */
+.car-range-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 80px;
+  background: linear-gradient(to left, #fff 0%, transparent 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
 /* ---- Track ---- */
 .car-range-track {
   display: flex;
@@ -82,7 +103,12 @@
   display: none;
 }
 
-/* ---- Car Card — flat default, hover slides up with bg ---- */
+/* ---- Dataset label rows (hidden) ---- */
+.car-range-dataset-label {
+  display: none;
+}
+
+/* ---- Car Card — fixed height container, hover bounces up inside ---- */
 .car-range-card {
   flex: 0 0 calc(25% - 21px);
   min-width: 220px;
@@ -91,21 +117,31 @@
   scroll-snap-align: start;
   cursor: pointer;
   border-radius: 20px;
-  padding: 0;
+  padding: 0 0 16px;
   box-sizing: border-box;
   position: relative;
+  margin-top: 40px;
+  transition: margin-top 200ms ease-out,
+              background-color 200ms ease-out,
+              box-shadow 200ms ease-out;
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+/* Scroll-in animation — triggered by JS */
+.car-range-card.visible {
+  opacity: 1;
   transform: translateY(0);
-  transition: transform 0.35s ease, background-color 0.35s ease, box-shadow 0.35s ease;
 }
 
-/* Hover state: slide up, grey bg, rounded */
+/* Hover — bounces up via negative margin-top, bottom stays aligned */
 .car-range-card:hover {
-  transform: translateY(-20px);
+  margin-top: 0;
   background-color: rgb(233 233 233 / 50%);
-  box-shadow: 0 8px 24px rgb(0 0 0 / 8%);
+  box-shadow: 0 12px 32px rgb(0 0 0 / 12%);
 }
 
-/* ---- Card Image ---- */
+/* ---- Card Image — eases out at 200ms on hover ---- */
 .car-range-card-image {
   width: 100%;
   aspect-ratio: 254 / 114;
@@ -114,6 +150,12 @@
   justify-content: center;
   padding: 24px 10px 0;
   box-sizing: border-box;
+  transform: translateY(0);
+  transition: transform 200ms ease-out;
+}
+
+.car-range-card:hover .car-range-card-image {
+  transform: translateY(-6px);
 }
 
 .car-range-card-image picture {
@@ -135,10 +177,15 @@
   flex-direction: column;
   gap: 14px;
   width: 100%;
-  padding: 24px 0 0;
+  padding: 24px 16px 0;
+  box-sizing: border-box;
 }
 
-.car-range-card-name {
+.car-range-card-name-wrap {
+  margin: 0;
+}
+
+a.car-range-card-name {
   font-family: var(--body-font-family);
   font-weight: 500;
   font-size: 20px;
@@ -148,7 +195,7 @@
   text-decoration: none;
 }
 
-.car-range-card-name:hover {
+a.car-range-card-name:hover {
   text-decoration: underline;
 }
 
@@ -203,14 +250,22 @@
   line-height: 21px;
   letter-spacing: -0.16px;
   color: #000;
+  opacity: 0.5;
+  transition: opacity 200ms ease;
 }
 
-/* ---- CTA "Learn More" — hidden by default, shown on hover ---- */
+/* Active card — spec values full opacity */
+.car-range-card:hover .car-range-spec-value {
+  opacity: 1;
+}
+
+/* ---- CTA "Learn More" — hidden, revealed on hover ---- */
 a.car-range-card-cta:any-link {
   display: block;
-  width: 100%;
-  height: 0;
-  padding: 0;
+  width: calc(100% - 32px);
+  margin-left: 16px;
+  margin-right: 16px;
+  padding: 14px 0;
   border-radius: 10px;
   border: none;
   background-color: var(--color-primary);
@@ -218,28 +273,27 @@ a.car-range-card-cta:any-link {
   font-family: var(--body-font-family);
   font-weight: 500;
   font-size: 16px;
-  line-height: 48px;
+  line-height: 20px;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
   opacity: 0;
-  overflow: hidden;
-  margin-top: 0;
-  transition: height 0.35s ease, opacity 0.3s ease, margin 0.35s ease;
+  margin-top: 16px;
+  transform: translateY(8px);
+  transition: opacity 200ms ease-out 50ms, transform 200ms ease-out 50ms;
   box-sizing: border-box;
 }
 
-.car-range-card:hover .car-range-card-cta {
+.car-range-card:hover a.car-range-card-cta:any-link {
   opacity: 1;
-  height: 48px;
-  margin-top: 16px;
+  transform: translateY(0);
 }
 
-.car-range-card:hover .car-range-card-cta:hover {
+.car-range-card:hover a.car-range-card-cta:hover {
   background-color: var(--color-primary-hover);
 }
 
-/* ---- Scroll Button ---- */
+/* ---- Scroll Arrow Nav — white bg + blue outline → blue bg on hover ---- */
 .car-range-scroll-btn {
   position: absolute;
   right: 0;
@@ -248,19 +302,21 @@ a.car-range-card-cta:any-link {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border: 1px solid rgb(0 0 0 / 10%);
+  border: 1.5px solid var(--color-primary);
   background-color: #fff;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 0;
-  transition: box-shadow 0.2s ease;
-  color: #000;
+  color: var(--color-primary);
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
 }
 
 .car-range-scroll-btn:hover {
-  box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+  background-color: var(--color-primary);
+  color: #fff;
+  transform: scale(1.08);
 }
 
 .car-range-scroll-btn svg {

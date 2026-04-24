@@ -286,11 +286,12 @@
         "valueType": "string"
       },
       {
-        "component": "text",
+        "component": "reference",
         "valueType": "string",
-        "name": "videoUrl",
-        "label": "Video URL",
-        "description": "YouTube or Vimeo URL. Used with Video Preview variant to show a featured video card."
+        "name": "video",
+        "label": "Video",
+        "description": "Select a video from the DAM for the featured video card.",
+        "multi": false
       },
       {
         "component": "select",
@@ -360,10 +361,18 @@
         "multi": false
       },
       {
+        "component": "reference",
+        "valueType": "string",
+        "name": "carImage",
+        "label": "Car Image",
+        "description": "Aerial/top-view car image for Slide 1",
+        "multi": false
+      },
+      {
         "component": "richtext",
         "name": "text",
         "value": "",
-        "label": "Statement Text & Stats",
+        "label": "Statement & Stats",
         "valueType": "string",
         "description": "Statement paragraph, then stats as 'Number | Label' per line"
       }
