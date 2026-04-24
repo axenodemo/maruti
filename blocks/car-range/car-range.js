@@ -34,7 +34,7 @@ function decorateCard(row) {
   const imageCol = cols[0];
   const textCol = cols[1];
 
-  // Check if this is a dataset label row (no picture, short text)
+  // Dataset label rows
   const hasPicture = row.querySelector('picture');
   if (!hasPicture && imageCol) {
     const text = imageCol.textContent.trim().toLowerCase();
@@ -52,18 +52,15 @@ function decorateCard(row) {
   if (textCol) {
     textCol.classList.add('car-range-card-content');
 
-    // Style the car name link
     const heading = textCol.querySelector('h3');
     const link = heading ? heading.querySelector('a') : null;
     if (heading) heading.classList.add('car-range-card-name-wrap');
     if (link) link.classList.add('car-range-card-name');
 
-    // Style description (first p without |)
     const paragraphs = Array.from(textCol.querySelectorAll('p'));
     paragraphs.forEach((p) => {
       const text = p.textContent;
       if (text.includes('|')) {
-        // Replace specs paragraph with styled specs
         const specs = parseSpecs(text);
         const specsRow = document.createElement('div');
         specsRow.className = 'car-range-specs';
@@ -75,7 +72,7 @@ function decorateCard(row) {
     });
   }
 
-  // Add CTA
+  // CTA button
   const link = row.querySelector('h3 a');
   const href = link ? link.getAttribute('href') : '#';
   const titleAttr = link ? link.getAttribute('data-cta') : null;
@@ -85,7 +82,6 @@ function decorateCard(row) {
   cta.textContent = titleAttr || 'Learn More';
   row.append(cta);
 
-  // Click handler
   row.addEventListener('click', (e) => {
     if (!e.target.closest('a')) window.location.href = href;
   });
@@ -100,11 +96,12 @@ function splitDatasets(block) {
     if (row.classList.contains('car-range-dataset-label')) {
       currentLabel = row.dataset.dataset;
       if (!datasets[currentLabel]) datasets[currentLabel] = [];
-      row.style.display = 'none';
       return;
     }
-    if (!datasets[currentLabel]) datasets[currentLabel] = [];
-    datasets[currentLabel].push(row);
+    if (row.classList.contains('car-range-card')) {
+      if (!datasets[currentLabel]) datasets[currentLabel] = [];
+      datasets[currentLabel].push(row);
+    }
   });
 
   return datasets;
@@ -128,7 +125,6 @@ function buildToggle(datasets) {
       toggle.querySelectorAll('.car-range-toggle-btn').forEach((b) => b.classList.remove('active'));
       btn.classList.add('active');
 
-      // Show/hide cards by dataset
       Object.entries(datasets).forEach(([key, cards]) => {
         cards.forEach((card) => {
           card.style.display = key === label ? '' : 'none';
@@ -142,7 +138,7 @@ function buildToggle(datasets) {
   return toggle;
 }
 
-function addScrollControls(block, track) {
+function addScrollControls(container, track) {
   const scrollBtn = document.createElement('button');
   scrollBtn.className = 'car-range-scroll-btn';
   scrollBtn.setAttribute('aria-label', 'Scroll right');
@@ -150,27 +146,86 @@ function addScrollControls(block, track) {
   scrollBtn.addEventListener('click', () => {
     track.scrollBy({ left: 320, behavior: 'smooth' });
   });
-  block.append(scrollBtn);
+  container.append(scrollBtn);
+}
+
+/**
+ * Scroll-in animations via IntersectionObserver:
+ *  - Section labels: opacity 0 + translateY(20-30) → visible, stagger 100ms
+ *  - Cards: opacity 0 + translateY(40) → visible, stagger index * 100ms
+ *  - Toggle: opacity 0 + translateX(20) → visible, delay 500ms
+ */
+function setupScrollAnimations(block, toggle) {
+  const section = block.closest('.section');
+  if (!section) return;
+
+  // Animate section labels (Our Range, heading)
+  const dcw = section.querySelector('.default-content-wrapper');
+  if (dcw) {
+    const labels = Array.from(dcw.children);
+    labels.forEach((el, i) => {
+      if (el.classList.contains('car-range-toggle')) return;
+      el.style.opacity = '0';
+      el.style.transform = `translateY(${20 + i * 5}px)`;
+    });
+
+    const labelObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          labels.forEach((el, i) => {
+            if (el.classList.contains('car-range-toggle')) return;
+            const delay = i * 100;
+            el.style.transition = `opacity 400ms ease-out ${delay}ms, transform 500ms ease-out ${delay}ms`;
+            el.style.opacity = '1';
+            el.style.transform = 'translateY(0)';
+          });
+          // Trigger toggle animation
+          if (toggle) toggle.classList.add('visible');
+          labelObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    labelObserver.observe(section);
+  }
+
+  // Animate cards on scroll
+  const cards = block.querySelectorAll('.car-range-card');
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        cards.forEach((card, i) => {
+          if (card.style.display === 'none') return;
+          const delay = i * 100;
+          card.style.transition = `opacity 400ms ease-out ${delay}ms, transform 400ms ease-out ${delay}ms`;
+          card.classList.add('visible');
+        });
+        cardObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  cardObserver.observe(block);
 }
 
 export default function decorate(block) {
   const rows = Array.from(block.querySelectorAll(':scope > div'));
 
-  // Decorate each row in-place (preserves UE instrumentation)
+  // Decorate each row in-place
   rows.forEach((row) => decorateCard(row));
 
-  // Split into datasets and build toggle
+  // Split datasets
   const datasets = splitDatasets(block);
   const labels = Object.keys(datasets);
 
-  // Hide non-first dataset cards
+  // Hide non-first dataset
   if (labels.length > 1) {
     labels.slice(1).forEach((label) => {
       datasets[label].forEach((card) => { card.style.display = 'none'; });
     });
   }
 
-  // Wrap visible cards in a track container (MOVE, not clone)
+  // Wrap in track (MOVE rows, preserve DOM)
   const track = document.createElement('div');
   track.className = 'car-range-track';
   rows.forEach((row) => track.append(row));
@@ -181,7 +236,7 @@ export default function decorate(block) {
   addScrollControls(container, track);
   block.append(container);
 
-  // Move toggle into section's default-content-wrapper
+  // Toggle
   const toggle = buildToggle(datasets);
   if (toggle) {
     const section = block.closest('.section');
@@ -192,4 +247,7 @@ export default function decorate(block) {
       block.prepend(toggle);
     }
   }
+
+  // Scroll-in animations
+  setupScrollAnimations(block, toggle);
 }
