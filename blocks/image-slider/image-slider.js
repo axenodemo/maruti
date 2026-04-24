@@ -1,3 +1,29 @@
+function decorateSlide(row, index) {
+  row.classList.add('image-slider-slide');
+  if (index === 0) row.classList.add('active');
+
+  const cols = Array.from(row.querySelectorAll(':scope > div'));
+  const imageCol = cols[0];
+  const textCol = cols[1];
+
+  if (imageCol) imageCol.classList.add('image-slider-slide-bg');
+  if (textCol) {
+    textCol.classList.add('image-slider-slide-content');
+
+    // Add slide number
+    const num = document.createElement('span');
+    num.className = 'image-slider-slide-num';
+    num.textContent = String(index + 1).padStart(2, '0');
+    textCol.prepend(num);
+
+    // Style heading and paragraph
+    const h3 = textCol.querySelector('h3');
+    if (h3) h3.classList.add('image-slider-slide-title');
+    const p = textCol.querySelector('p');
+    if (p) p.classList.add('image-slider-slide-desc');
+  }
+}
+
 function buildProgressBars(count, container) {
   const barsWrap = document.createElement('div');
   barsWrap.className = 'image-slider-progress';
@@ -40,61 +66,12 @@ function buildNavArrows(container) {
   return nav;
 }
 
-function buildSlide(row, index) {
-  const picture = row.querySelector('picture');
-  const heading = row.querySelector('h3, h2');
-  const paragraphs = Array.from(row.querySelectorAll('p'));
-
-  const slide = document.createElement('div');
-  slide.className = 'image-slider-slide';
-  if (index === 0) slide.classList.add('active');
-
-  // Background image
-  if (picture) {
-    const bg = document.createElement('div');
-    bg.className = 'image-slider-slide-bg';
-    bg.append(picture);
-    slide.append(bg);
-  }
-
-  // Content overlay
-  const content = document.createElement('div');
-  content.className = 'image-slider-slide-content';
-
-  // Slide number
-  const num = document.createElement('span');
-  num.className = 'image-slider-slide-num';
-  num.textContent = String(index + 1).padStart(2, '0');
-  content.append(num);
-
-  // Title
-  if (heading) {
-    const title = document.createElement('h3');
-    title.className = 'image-slider-slide-title';
-    title.textContent = heading.textContent;
-    content.append(title);
-  }
-
-  // Description
-  const desc = paragraphs.find((p) => p.textContent.trim().length > 0);
-  if (desc) {
-    const descEl = document.createElement('p');
-    descEl.className = 'image-slider-slide-desc';
-    descEl.textContent = desc.textContent;
-    content.append(descEl);
-  }
-
-  slide.append(content);
-  return slide;
-}
-
 function setupFadeInOnScroll(block) {
   const section = block.closest('.section');
   if (!section) return;
 
   section.classList.add('fade-in');
 
-  // Use requestAnimationFrame to ensure class is applied before observing
   requestAnimationFrame(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -113,15 +90,14 @@ export default function decorate(block) {
   const rows = Array.from(block.querySelectorAll(':scope > div'));
   const slideCount = rows.length;
 
-  // Build slides
+  // Wrap rows in a slides container (MOVE, preserve DOM)
   const slidesWrap = document.createElement('div');
   slidesWrap.className = 'image-slider-slides';
 
-  const slides = rows.map((row, i) => buildSlide(row, i));
-  slides.forEach((s) => slidesWrap.append(s));
-
-  // Clear and rebuild
-  block.textContent = '';
+  rows.forEach((row, i) => {
+    decorateSlide(row, i);
+    slidesWrap.append(row);
+  });
 
   const container = document.createElement('div');
   container.className = 'image-slider-container';
@@ -143,8 +119,8 @@ export default function decorate(block) {
     if (target < 0) target = slideCount - 1;
     if (target >= slideCount) target = 0;
 
-    slides[current].classList.remove('active');
-    slides[target].classList.add('active');
+    rows[current].classList.remove('active');
+    rows[target].classList.add('active');
 
     const bars = progressBars.querySelectorAll('.image-slider-progress-bar');
     bars[current].classList.remove('active');
@@ -159,6 +135,5 @@ export default function decorate(block) {
 
   block.append(container);
 
-  // Fade-in on scroll
   setupFadeInOnScroll(block);
 }

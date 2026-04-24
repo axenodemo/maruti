@@ -19,11 +19,28 @@
   padding: 0;
 }
 
-/* ---- Background image ---- */
-.stats-bg {
+/* ---- Rows ---- */
+.stats-bg-row {
   position: absolute;
   inset: 0;
   z-index: 0;
+}
+
+.stats-text-row {
+  position: relative;
+  z-index: 2;
+  max-width: 1000px;
+  padding: 260px 56px 0;
+}
+
+.stats-text-row > div {
+  padding: 0;
+}
+
+/* ---- Background image ---- */
+.stats-bg {
+  width: 100%;
+  height: 100%;
 }
 
 .stats-bg picture {
@@ -50,15 +67,8 @@
   background: linear-gradient(to top, rgb(0 0 0 / 50%) 0%, transparent 100%);
 }
 
-/* ---- Statement text: Roboto Light 48px/56px, white ---- */
-.stats-statement {
-  position: relative;
-  z-index: 2;
-  max-width: 1000px;
-  padding: 260px 56px 0;
-}
-
-.stats-statement p {
+/* ---- Statement text ---- */
+p.stats-statement {
   font-family: var(--body-font-family);
   font-weight: 300;
   font-size: 32px;
