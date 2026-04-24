@@ -286,11 +286,12 @@
         "valueType": "string"
       },
       {
-        "component": "text",
+        "component": "reference",
         "valueType": "string",
-        "name": "videoUrl",
-        "label": "Video URL",
-        "description": "YouTube or Vimeo URL. Used with Video Preview variant to show a featured video card."
+        "name": "video",
+        "label": "Video",
+        "description": "Select a video from the DAM for the featured video card.",
+        "multi": false
       },
       {
         "component": "select",
