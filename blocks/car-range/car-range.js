@@ -163,6 +163,16 @@ function setupScrollAnimations(block, toggle) {
   const subtitle = section.querySelector('.default-content-wrapper > p:first-child');
   if (subtitle) subtitle.style.textTransform = 'uppercase';
 
+  // Fix escaped HTML tags in heading (AEM title component escapes <strong>)
+  const h2 = section.querySelector('.default-content-wrapper h2');
+  if (h2 && h2.textContent.includes('<strong>')) {
+    h2.innerHTML = h2.textContent;
+  }
+
+  // Style <strong> inside heading as accent color
+  const strong = h2 ? h2.querySelector('strong') : null;
+  if (strong) strong.classList.add('car-range-accent');
+
   // Animate section labels (Our Range, heading)
   const dcw = section.querySelector('.default-content-wrapper');
   if (dcw) {

@@ -722,7 +722,8 @@ main .section.car-range-container h2 {
   letter-spacing: -1.5px;
 }
 
-main .section.car-range-container h2 strong {
+main .section.car-range-container h2 strong,
+main .section.car-range-container h2 .car-range-accent {
   color: var(--color-primary);
   font-weight: inherit;
 }
