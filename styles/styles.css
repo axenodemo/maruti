@@ -457,7 +457,7 @@ main > .section:first-of-type {
 
 @media (width >= 992px) {
   main > .section > div {
-    padding: 0 var(--spacing-2xl);
+    padding: 0 var(--grid-margin);
   }
 }
 
@@ -618,32 +618,36 @@ main .section.tech-fold > div > p:last-of-type {
   }
 }
 
-/* Contact section — dark navy with heading left + cards right */
+/* Contact section — dark navy, heading left + cards right */
 main .section.contact-bg {
   background-color: var(--color-primary-hover);
   color: #fff;
   margin: 0;
   padding: 60px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
 }
 
 main .section.contact-bg > div {
-  padding: 0 var(--grid-margin);
-}
-
-main .section.contact-bg > .default-content-wrapper,
-main .section.contact-bg > .contact-cards-wrapper {
-  display: flex;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: unset;
+  padding: 0;
 }
 
 main .section.contact-bg > .default-content-wrapper {
-  padding-top: 30px;
-  padding-bottom: 20px;
+  flex: 0 0 auto;
+  width: calc(50% - 20px);
+  max-width: 560px;
+  padding-left: var(--grid-margin);
+  padding-top: 50px;
 }
 
 main .section.contact-bg > .contact-cards-wrapper {
-  justify-content: flex-end;
+  flex: 0 0 auto;
+  width: calc(50% - 20px);
+  max-width: 560px;
+  padding-right: var(--grid-margin);
 }
 
 main .section.contact-bg h2 {
@@ -668,7 +672,7 @@ main .section.contact-bg > .default-content-wrapper > div > p {
 
 @media (width < 768px) {
   main .section.contact-bg {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
   main .section.contact-bg > .default-content-wrapper {
