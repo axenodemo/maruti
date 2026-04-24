@@ -5,7 +5,8 @@
    ============================================================ */
 
 .contact-cards-container .contact-cards-wrapper {
-  max-width: unset;
+  padding: 0;
+  overflow: hidden;
 }
 
 .contact-cards {
@@ -17,9 +18,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
-  max-width: 617px;
-  margin-left: auto;
-  width: 100%;
+  max-width: 100%;
 }
 
 /* ---- Card (14px radius, #131766 bg) ---- */

@@ -78,8 +78,19 @@ function decorateCard(row) {
   }
 
   cardEl.append(content);
-  cardEl.addEventListener('click', () => { window.location.href = href; });
-  cardEl.style.cursor = 'pointer';
+
+  // CTA button — authorable via title attribute on the link
+  const cta = document.createElement('a');
+  cta.className = 'car-range-card-cta';
+  cta.href = href;
+  cta.textContent = (link && link.getAttribute('data-cta'))
+    ? link.getAttribute('data-cta')
+    : 'Learn More';
+  cardEl.append(cta);
+
+  cardEl.addEventListener('click', (e) => {
+    if (!e.target.closest('a')) window.location.href = href;
+  });
   return cardEl;
 }
 

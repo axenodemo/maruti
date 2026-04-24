@@ -5,7 +5,7 @@
    ============================================================ */
 
 .explore-cards-container .explore-cards-wrapper {
-  overflow: hidden;
+  padding: 0;
 }
 
 .explore-cards {
@@ -50,7 +50,7 @@
 .explore-cards-viewport {
   flex: 1;
   min-width: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .explore-cards-track {
@@ -60,16 +60,15 @@
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
-  padding-right: 120px;
 }
 
 .explore-cards-track::-webkit-scrollbar {
   display: none;
 }
 
-/* ---- Card (max 402px, 18px radius) ---- */
+/* ---- Card (402x442, 18px radius) ---- */
 .explore-card {
-  flex: 0 0 min(402px, 80vw);
+  flex: 0 0 402px;
   height: 442px;
   position: relative;
   border-radius: 18px;
@@ -145,10 +144,10 @@
   color: rgb(255 255 255 / 80%);
 }
 
-/* Arrow icon (top-right of card) */
+/* Arrow icon (bottom-right of card content) */
 .explore-card-arrow {
   position: absolute;
-  top: 24px;
+  bottom: 24px;
   right: 24px;
   width: 36px;
   height: 36px;
@@ -217,11 +216,7 @@
   }
 
   .explore-card {
-    flex: 0 0 300px;
+    flex: 0 0 min(300px, 80vw);
     height: 360px;
-  }
-
-  .explore-cards-track {
-    padding-right: 40px;
   }
 }

@@ -55,7 +55,7 @@
   position: relative;
   z-index: 2;
   max-width: 1000px;
-  padding: 260px var(--grid-margin) 0;
+  padding: 260px 56px 0;
 }
 
 .stats-statement p {
