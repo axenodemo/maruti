@@ -210,7 +210,21 @@ export default function decorate(block) {
   if (textRow) {
     textRow.classList.add('hero-content');
     const col = textRow.querySelector(':scope > div');
-    if (col) col.classList.add('hero-content-inner');
+    if (col) {
+      col.classList.add('hero-content-inner');
+
+      // Fix CTAs: if links are in a single <p> without button class, decorate them
+      col.querySelectorAll('p').forEach((p) => {
+        const links = p.querySelectorAll('a');
+        if (links.length > 0 && !p.classList.contains('button-container')) {
+          p.classList.add('button-container');
+          links.forEach((a, i) => {
+            a.classList.add('button');
+            if (i > 0) a.classList.add('secondary');
+          });
+        }
+      });
+    }
   }
 
   // Row 3: video (DAM reference or URL)

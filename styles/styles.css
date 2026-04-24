@@ -699,16 +699,18 @@ main .section.car-range-container > .default-content-wrapper {
   margin-bottom: 40px;
 }
 
-main .section.car-range-container > div > p:first-child {
+main .section.car-range-container > div > p:first-child,
+main .section.car-range-container > div > p:first-child em {
   font-family: var(--body-font-family);
   font-weight: 500;
   font-size: 20px;
-  line-height: 24px;
-  letter-spacing: -0.4px;
+  line-height: 48px;
+  letter-spacing: 0.2px;
   color: #000;
   opacity: 0.4;
   margin: 0 0 20px;
   font-style: normal;
+  text-transform: uppercase;
   width: 100%;
 }
 
