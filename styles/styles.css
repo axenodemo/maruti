@@ -595,10 +595,15 @@ main .section.tech-fold h2 {
   max-width: 1147px;
 }
 
-/* Faded portion of the statement text — opacity drops to ~40% */
+/* em inside h2 — font-style normal, color controlled by JS reveal */
 main .section.tech-fold h2 em {
   font-style: normal;
-  color: rgb(8 12 11 / 40%);
+}
+
+/* Reveal word spans */
+main .section.tech-fold h2 .reveal-word {
+  display: inline;
+  will-change: color;
 }
 
 /* Sub-text: Roboto Light 16px/18px */

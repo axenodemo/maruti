@@ -66,10 +66,85 @@ function buildNavArrows(container) {
   return nav;
 }
 
+/**
+ * Split text into word spans for scroll-linked color reveal.
+ * Each word transitions from rgba(0,0,0,0.2) → rgba(0,0,0,1)
+ * as it enters the viewport, using IntersectionObserver with
+ * threshold steps [0, 0.25, 0.5, 0.75, 1].
+ */
+function setupTextReveal(section) {
+  const h2 = section.querySelector('.default-content-wrapper h2');
+  if (!h2) return;
+
+  // Split h2 into word spans (preserve <em> structure)
+  const wrapWords = (node) => {
+    const frag = document.createDocumentFragment();
+    node.childNodes.forEach((child) => {
+      if (child.nodeType === Node.TEXT_NODE) {
+        const words = child.textContent.split(/(\s+)/);
+        words.forEach((w) => {
+          if (w.trim()) {
+            const span = document.createElement('span');
+            span.className = 'reveal-word';
+            span.style.color = 'rgb(0 0 0 / 20%)';
+            span.style.transition = 'color 300ms ease-out';
+            span.textContent = w;
+            frag.append(span);
+          } else if (w) {
+            frag.append(document.createTextNode(w));
+          }
+        });
+      } else if (child.nodeType === Node.ELEMENT_NODE) {
+        const clone = child.cloneNode(false);
+        clone.append(wrapWords(child));
+        frag.append(clone);
+      }
+    });
+    return frag;
+  };
+
+  const wrapped = wrapWords(h2);
+  h2.textContent = '';
+  h2.append(wrapped);
+
+  const allWords = Array.from(h2.querySelectorAll('.reveal-word'));
+  const totalWords = allWords.length;
+
+  // IntersectionObserver with threshold steps
+  const thresholds = [0, 0.25, 0.5, 0.75, 1];
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const ratio = entry.intersectionRatio;
+      // Map ratio to how many words should be fully revealed
+      const revealCount = Math.floor(ratio * totalWords);
+
+      allWords.forEach((word, i) => {
+        if (i < revealCount) {
+          word.style.color = 'rgb(0 0 0 / 100%)';
+        } else if (i === revealCount) {
+          // Partially reveal the current word
+          const partial = (ratio * totalWords) - revealCount;
+          const opacity = 0.2 + (partial * 0.8);
+          word.style.color = `rgb(0 0 0 / ${Math.round(opacity * 100)}%)`;
+        } else {
+          word.style.color = 'rgb(0 0 0 / 20%)';
+        }
+      });
+    });
+  }, { threshold: thresholds });
+
+  observer.observe(h2);
+}
+
 function setupFadeInOnScroll(block) {
   const section = block.closest('.section');
   if (!section) return;
 
+  // Text reveal animation for the large statement
+  setupTextReveal(section);
+
+  // Section fade-in
   section.classList.add('fade-in');
 
   requestAnimationFrame(() => {
