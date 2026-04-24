@@ -707,10 +707,6 @@ main .section.car-range-container > div > p:first-child {
   width: 100%;
 }
 
-main .section.car-range-container > div > p:first-child em {
-  font-style: normal;
-}
-
 main .section.car-range-container h2 {
   font-family: var(--body-font-family);
   font-weight: 400;
@@ -723,7 +719,7 @@ main .section.car-range-container h2 {
 
 main .section.car-range-container h2 strong {
   color: var(--color-primary);
-  font-weight: 400;
+  font-weight: inherit;
 }
 
 @media (width >= 992px) {

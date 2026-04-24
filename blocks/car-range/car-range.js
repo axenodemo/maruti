@@ -159,6 +159,10 @@ function setupScrollAnimations(block, toggle) {
   const section = block.closest('.section');
   if (!section) return;
 
+  // Make "Our Range" uppercase
+  const subtitle = section.querySelector('.default-content-wrapper > p:first-child');
+  if (subtitle) subtitle.style.textTransform = 'uppercase';
+
   // Animate section labels (Our Range, heading)
   const dcw = section.querySelector('.default-content-wrapper');
   if (dcw) {
