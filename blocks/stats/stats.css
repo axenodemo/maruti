@@ -1,7 +1,6 @@
 /* ============================================================
-   Stats Block — MSIL Corporate Design System
-   Full-width bg, statement text, scroll-animated car + stats
-   Figma: MSIL-Corporate-CC-Pt-2, node 6124:26267
+   Stats Block — Scroll-hijacked 2-slide horizontal panel
+   Slide 1: statement + car | Slide 2: counter stats
    ============================================================ */
 
 .stats-container .stats-wrapper {
@@ -14,30 +13,22 @@
 .stats {
   position: relative;
   width: 100%;
-  min-height: 757px;
+  height: 757px;
   overflow: hidden;
   padding: 0;
 }
 
-/* ---- Rows ---- */
+/* ---- Background image ---- */
 .stats-bg-row {
   position: absolute;
   inset: 0;
   z-index: 0;
 }
 
-.stats-text-row {
-  position: relative;
-  z-index: 2;
-  max-width: 1000px;
-  padding: 260px 56px 0;
-}
-
-.stats-text-row > div {
+.stats-bg-row > div {
   padding: 0;
 }
 
-/* ---- Background image ---- */
 .stats-bg {
   width: 100%;
   height: 100%;
@@ -56,130 +47,251 @@
   object-fit: cover;
 }
 
-/* ---- Dark overlay for lower half ---- */
+/* ---- Dark overlay ---- */
 .stats-overlay {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60%;
+  inset: 0;
   z-index: 1;
   background: linear-gradient(to top, rgb(0 0 0 / 50%) 0%, transparent 100%);
 }
 
-/* ---- Statement text ---- */
+/* ---- Track — horizontal 2-slide panel ---- */
+.stats-track {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: 200vw;
+  height: 100%;
+  transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stats-slide {
+  width: 100vw;
+  height: 100%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--grid-margin);
+  box-sizing: border-box;
+}
+
+/* ---- Slide 1: Statement left + Car right ---- */
+.stats-slide-1 {
+  justify-content: space-between;
+  gap: 60px;
+}
+
+.stats-slide1-text {
+  flex: 1;
+  max-width: 600px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 500ms ease-out 200ms, transform 500ms ease-out 200ms;
+}
+
+.stats-slide1-text.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 p.stats-statement {
   font-family: var(--body-font-family);
   font-weight: 300;
-  font-size: 32px;
-  line-height: 40px;
+  font-size: 48px;
+  line-height: 56px;
   color: #fff;
   margin: 0;
 }
 
-@media (width >= 992px) {
-  .stats-statement p {
-    font-size: 48px;
-    line-height: 56px;
-  }
+.stats-slide1-car {
+  flex-shrink: 0;
+  width: 500px;
+  height: 350px;
+  opacity: 0;
+  transform: translateX(80px);
+  transition: opacity 600ms ease-out 100ms, transform 600ms ease-out 100ms;
 }
 
-/* ---- Car image: positioned right, scroll-animated ---- */
-.stats-car {
-  position: absolute;
-  top: 200px;
-  right: -100px;
-  z-index: 3;
-  width: 797px;
-  height: 349px;
-  will-change: transform;
-  transition: transform 0.1s linear;
+.stats-slide1-car.visible {
+  opacity: 1;
+  transform: translateX(0);
 }
 
-.stats-car picture {
+.stats-slide1-car picture {
   display: block;
   width: 100%;
   height: 100%;
 }
 
-.stats-car img {
+.stats-slide1-car img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-/* ---- Stats Marquee: large numbers, scroll-animated ---- */
-.stats-marquee {
-  position: absolute;
-  bottom: 80px;
-  left: 0;
-  z-index: 4;
-  display: flex;
-  gap: 78px;
-  will-change: transform;
-  transition: transform 0.1s linear;
-  white-space: nowrap;
+/* ---- Slide 2: Stats counters ---- */
+.stats-slide-2 {
+  justify-content: center;
 }
 
-.stats-marquee-item {
+.stats-counters {
+  display: flex;
+  gap: 78px;
+  align-items: flex-start;
+}
+
+.stats-counter-item {
   display: flex;
   flex-direction: column;
   gap: 38px;
 }
 
-/* Number: Inter Display ~140px, white */
-.stats-marquee-number {
+.stats-counter-number {
   font-family: var(--display-font-family);
   font-weight: 400;
-  font-size: 80px;
+  font-size: 96px;
   line-height: 1;
-  letter-spacing: -2.4px;
+  letter-spacing: -4.2px;
   color: #fff;
 }
 
-/* Label: Roboto 16px/21px, white */
-.stats-marquee-label {
+.stats-counter-label {
   font-family: var(--body-font-family);
   font-weight: 400;
   font-size: 16px;
   line-height: 21px;
   letter-spacing: -0.16px;
   color: #fff;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 400ms ease-out, transform 400ms ease-out;
 }
 
-@media (width >= 992px) {
-  .stats-marquee-number {
-    font-size: 140px;
-    line-height: 152px;
-    letter-spacing: -4.2px;
+.stats-counter-label.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---- Nav arrows — top center ---- */
+.stats-nav {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  gap: 12px;
+}
+
+.stats-nav-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1.5px solid rgb(255 255 255 / 40%);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.stats-nav-btn:hover {
+  background: rgb(255 255 255 / 15%);
+  border-color: rgb(255 255 255 / 70%);
+}
+
+.stats-nav-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.stats-nav-btn:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ---- Tablet (~1246px) ---- */
+@media (width < 1280px) {
+  .stats-counter-number {
+    font-size: 72px;
+    letter-spacing: -3px;
+  }
+
+  .stats-slide1-car {
+    width: 400px;
+    height: 280px;
   }
 }
 
-/* ---- Mobile ---- */
+/* ---- Mobile (390px) — vertical stack, no hijack ---- */
 @media (width < 768px) {
   .stats {
-    min-height: 500px;
+    height: auto;
+    min-height: 600px;
   }
 
-  .stats-statement {
-    padding: 120px 20px 0;
+  .stats-track {
+    width: 100%;
+    flex-direction: column;
+    height: auto;
   }
 
-  .stats-car {
-    width: 400px;
-    height: 175px;
-    top: 100px;
+  .stats-slide {
+    width: 100%;
+    height: auto;
+    min-height: 400px;
+    flex-direction: column;
+    padding: 60px var(--grid-margin);
   }
 
-  .stats-marquee {
+  .stats-slide-1 {
+    flex-direction: column;
     gap: 40px;
-    bottom: 40px;
   }
 
-  .stats-marquee-number {
+  .stats-slide1-text {
+    max-width: 100%;
+    opacity: 1;
+    transform: none;
+  }
+
+  p.stats-statement {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .stats-slide1-car {
+    width: 100%;
+    height: 200px;
+    opacity: 1;
+    transform: none;
+  }
+
+  .stats-counters {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .stats-counter-number {
     font-size: 48px;
-    line-height: 1;
-    letter-spacing: -1.4px;
+    letter-spacing: -1.5px;
+  }
+
+  .stats-counter-label {
+    opacity: 1;
+    transform: none;
+  }
+
+  .stats-nav {
+    position: relative;
+    top: auto;
+    left: auto;
+    transform: none;
+    justify-content: center;
+    margin-top: 24px;
   }
 }

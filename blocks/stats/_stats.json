@@ -28,10 +28,18 @@
           "multi": false
         },
         {
+          "component": "reference",
+          "valueType": "string",
+          "name": "carImage",
+          "label": "Car Image",
+          "description": "Aerial/top-view car image for Slide 1",
+          "multi": false
+        },
+        {
           "component": "richtext",
           "name": "text",
           "value": "",
-          "label": "Statement Text & Stats",
+          "label": "Statement & Stats",
           "valueType": "string",
           "description": "Statement paragraph, then stats as 'Number | Label' per line"
         }
