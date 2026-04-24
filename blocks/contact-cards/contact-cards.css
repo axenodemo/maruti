@@ -1,0 +1,86 @@
+/* ============================================================
+   Contact Cards Block — MSIL Corporate Design System
+   2x2 action card grid on dark navy background
+   Figma: MSIL-Corporate-CC-Pt-2, node 6885:38729
+   ============================================================ */
+
+.contact-cards-container .contact-cards-wrapper {
+  max-width: unset;
+}
+
+.contact-cards {
+  padding: 0;
+}
+
+/* ---- 2x2 Grid (responsive, right-aligned on desktop) ---- */
+.contact-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 617px;
+  margin-left: auto;
+  width: 100%;
+}
+
+/* ---- Card (14px radius, #131766 bg) ---- */
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 72px;
+  padding: 20px;
+  border-radius: 14px;
+  background-color: #131766;
+  text-decoration: none;
+  color: #fff;
+  transition: background-color 0.2s ease;
+  min-height: 160px;
+}
+
+.contact-card:hover {
+  background-color: #1a1f7a;
+}
+
+/* Icon: 36px, white outline */
+.contact-card-icon {
+  width: 36px;
+  height: 36px;
+  color: #fff;
+}
+
+.contact-card-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Text area */
+.contact-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Label: 14px, lighter white */
+.contact-card-label {
+  font-family: var(--body-font-family);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: rgb(255 255 255 / 50%);
+}
+
+/* Value: 14px, bold white */
+.contact-card-value {
+  font-family: var(--body-font-family);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #fff;
+}
+
+/* ---- Mobile: stack to 1 column ---- */
+@media (width < 480px) {
+  .contact-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}

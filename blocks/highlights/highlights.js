@@ -116,16 +116,15 @@ export default function decorate(block) {
   viewport.append(track);
   block.append(viewport);
 
-  // State: center the first card, each slide shifts by (cardWidth + gap)
   let current = 0;
-  const cardWidth = 828;
-  const gap = 24;
 
   function goTo(idx) {
     let target = idx;
     if (target < 0) target = count - 1;
     if (target >= count) target = 0;
-    track.style.transform = `translateX(-${target * (cardWidth + gap)}px)`;
+    const firstCard = track.querySelector('.highlights-card');
+    const step = firstCard ? firstCard.offsetWidth + 24 : 852;
+    track.style.transform = `translateX(-${target * step}px)`;
     current = target;
   }
 

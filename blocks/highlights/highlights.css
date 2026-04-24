@@ -7,6 +7,7 @@
 .highlights-container .highlights-wrapper {
   max-width: unset;
   padding: 0;
+  overflow: hidden;
 }
 
 /* ---- Viewport: overflow visible for peek effect ---- */
@@ -19,12 +20,12 @@
   display: flex;
   gap: 24px;
   transition: transform 0.5s ease;
-  padding: 0 calc(50% - 414px);
+  padding: 0 var(--grid-margin);
 }
 
-/* ---- Card (828x433, 29px radius, white bg) ---- */
+/* ---- Card (max 828px, 29px radius, white bg) ---- */
 .highlights-card {
-  flex: 0 0 828px;
+  flex: 0 0 min(828px, calc(100vw - 2 * var(--grid-margin)));
   display: flex;
   align-items: stretch;
   gap: 0;
