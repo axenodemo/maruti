@@ -30,10 +30,11 @@ function decorateCard(row) {
       body.className = 'highlights-card-item-body';
 
       const link = h.querySelector('a');
-      const title = document.createElement('a');
+      const href = link ? link.getAttribute('href') : '#';
+      const title = document.createElement('span');
       title.className = 'highlights-card-item-title';
-      title.href = link ? link.getAttribute('href') : '#';
       title.textContent = h.textContent;
+      title.style.cursor = 'pointer';
       body.append(title);
 
       // Description = next sibling p
@@ -44,7 +45,7 @@ function decorateCard(row) {
 
         const readMore = document.createElement('a');
         readMore.className = 'highlights-card-readmore';
-        readMore.href = title.href;
+        readMore.href = href;
         readMore.innerHTML = 'Read more <span>↗</span>';
         body.append(readMore);
       }
