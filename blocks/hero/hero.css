@@ -1,32 +1,35 @@
 /* ============================================================
    Hero Block — MSIL Corporate Design System
-   Variants: default | video-preview (featured video card + modal)
-   Figma: MSIL-Corporate-CC-Pt-2, nodes 6124:26133 / 6885:47549
-   xwalk model: image | imageAlt | text | videoUrl
+   Full-viewport hero with entry animations + video card
    ============================================================ */
 
-/* ---- Container Reset ---- */
 .hero-container .hero-wrapper {
   max-width: unset;
   padding: 0;
 }
 
-/* ---- Base Hero (1366x790 in Figma) ---- */
+/* ---- Base Hero — full viewport (capped for UE) ---- */
 .hero {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: 500px;
-  padding: 0 var(--grid-margin) 20px;
+  min-height: min(100vh, 900px);
+  padding: 0 var(--grid-margin) 80px;
   overflow: hidden;
 }
 
-/* Background image — absolute fill */
-.hero .hero-bg {
+/* ---- BG image row — absolute fill ---- */
+.hero > .hero-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
+  will-change: transform, opacity;
+}
+
+.hero > .hero-bg > div {
+  width: 100%;
+  height: 100%;
 }
 
 .hero .hero-bg picture {
@@ -42,21 +45,22 @@
   object-fit: cover;
 }
 
-/* Content area */
-.hero .hero-content {
+/* ---- Content row ---- */
+.hero > .hero-content {
   position: relative;
   z-index: 2;
+}
+
+.hero .hero-content-inner {
   max-width: 1260px;
   margin: 0 auto;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 40px;
 }
 
-/* ---- Typography (Figma exact) ---- */
-
-/* Heading: Roboto Light 60px/72px white */
+/* ---- H1 lines ---- */
 .hero h1 {
   font-family: var(--body-font-family);
   font-weight: 300;
@@ -65,6 +69,11 @@
   color: #fff;
   margin: 0;
   max-width: 508px;
+}
+
+.hero-h1-line {
+  display: inline-block;
+  will-change: transform, opacity;
 }
 
 .hero h2,
@@ -78,8 +87,8 @@
   margin: 0;
 }
 
-/* Subtitle: Roboto Light 16px/22px white */
-.hero p {
+/* ---- Subtitle ---- */
+.hero .hero-content p {
   font-family: var(--body-font-family);
   font-weight: 300;
   font-size: 16px;
@@ -87,9 +96,10 @@
   color: #fff;
   margin: 0;
   max-width: 508px;
+  will-change: transform, opacity;
 }
 
-/* No-image fallback */
+/* ---- No-image fallback ---- */
 .hero.no-image {
   min-height: auto;
   background-color: var(--color-secondary);
@@ -101,11 +111,11 @@
 .hero.no-image h4,
 .hero.no-image h5,
 .hero.no-image h6,
-.hero.no-image p {
+.hero.no-image .hero-content p {
   color: var(--text-color);
 }
 
-/* ---- Buttons ---- */
+/* ---- CTAs ---- */
 .hero .button-container {
   display: flex;
   flex-direction: row;
@@ -114,9 +124,9 @@
   margin: 0;
 }
 
-/* Primary CTA: #171C8F bg, 10px radius, 14px text, px-40 py-12 */
+/* Primary CTA — filled blue, matching Figma */
 .hero a.button:any-link {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   gap: 8px;
@@ -125,7 +135,7 @@
   border-radius: 10px;
   border: 1px solid var(--color-primary);
   background-color: var(--color-primary);
-  color: #fbfbfb;
+  color: #fff;
   font-family: var(--body-font-family);
   font-weight: 400;
   font-size: 14px;
@@ -134,8 +144,9 @@
   text-decoration: none;
   text-align: center;
   white-space: nowrap;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
   margin: 0;
+  will-change: transform, opacity;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 .hero a.button:hover {
@@ -143,7 +154,7 @@
   border-color: var(--color-primary-hover);
 }
 
-/* Secondary CTA: transparent, white text, no bg, with arrow */
+/* Secondary CTA — transparent text link with arrow */
 .hero a.button.secondary:any-link {
   background-color: transparent;
   border-color: transparent;
@@ -158,31 +169,57 @@
   opacity: 0.8;
 }
 
-/* ---- Desktop (992px+) ---- */
-@media (width >= 992px) {
-  .hero {
-    min-height: 790px;
-    padding: 0 var(--grid-margin) 20px;
-  }
+/* ---- Scroll Indicator — bottom center, infinite bounce ---- */
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  will-change: transform, opacity;
+  animation: hero-bounce 2s ease-in-out 1.2s infinite;
+}
 
+.hero-scroll-indicator span {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: -0.42px;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+}
+
+@keyframes hero-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(8px); }
+}
+
+/* ---- Desktop ---- */
+@media (width >= 992px) {
   .hero h1 {
     font-size: 60px;
     line-height: 72px;
   }
 }
 
-/* ---- Mobile adjustments ---- */
+/* ---- Mobile ---- */
 @media (width < 768px) {
   .hero {
-    min-height: 400px;
-    padding: 0 20px 16px;
+    min-height: 80vh;
+    padding: 0 20px 60px;
   }
 
   .hero h1 {
     max-width: 100%;
   }
 
-  .hero p {
+  .hero .hero-content p {
     max-width: 100%;
   }
 
@@ -197,115 +234,143 @@
     width: 100%;
     max-width: 280px;
   }
+
+  .hero-scroll-indicator {
+    display: none;
+  }
 }
 
 /* ============================================================
-   Video Preview Variant — Featured Video Card
-   Figma: 373x218 card, bottom-right, 12px radius
+   Video Card — slide-in on scroll, DAM video support
    ============================================================ */
 
-/* Featured video card — positioned bottom-right */
 .hero-featured-video {
   position: absolute;
   right: var(--grid-margin);
-  bottom: 55px;
+  bottom: 80px;
   z-index: 3;
-  width: 373px;
-  height: 218px;
+  width: 380px;
   border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  background: rgb(0 0 0 / 60%);
+  opacity: 0;
+  transform: translateX(60px) scale(0.95);
+  transition: opacity 500ms cubic-bezier(0.4, 0, 0.2, 1),
+              transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-featured-video.visible {
+  opacity: 1;
+  transform: translateX(0) scale(1);
 }
 
 .hero-featured-video:hover {
   transform: scale(1.02);
 }
 
-.hero.video-preview .hero-featured-video picture,
-.hero.video-preview .hero-featured-video img {
+/* DAM Video element */
+.hero-featured-video video {
   display: block;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
+  border-radius: 12px 12px 0 0;
 }
 
-/* Video card content overlay */
-.hero-featured-video-content {
+.hero .hero-featured-video picture,
+.hero .hero-featured-video img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px 12px 0 0;
+}
+
+/* Loading overlay — fades as video starts */
+.hero-video-loading {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  aspect-ratio: 16 / 9;
+  background: rgb(0 0 0 / 40%);
+  z-index: 1;
+}
+
+/* Content below video */
+.hero-featured-video-content {
+  padding: 12px 16px 16px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
-  background: linear-gradient(to top, rgb(0 0 0 / 60%) 0%, transparent 60%);
-}
-
-.hero .hero-featured-video-content p {
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 21px;
-  letter-spacing: 0.16px;
-  max-width: 100%;
-}
-
-/* "Watch full Video" button inside card */
-.hero-featured-video-play {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 6px;
-  padding: 11px 21px;
-  border-radius: 8px;
-  background-color: rgb(0 0 0 / 9%);
-  border: none;
-  cursor: pointer;
-  width: fit-content;
-  margin-bottom: 8px;
-  transition: background-color 0.2s ease;
 }
 
-.hero-featured-video-play:hover {
-  background-color: rgb(0 0 0 / 20%);
-}
-
-.hero .hero-featured-video-play svg {
-  width: 7px;
-  height: 14px;
-  fill: #fff;
-}
-
-.hero .hero-featured-video-play span {
+/* Label: "▶ Watch full Video" */
+.hero-video-label {
   font-family: var(--body-font-family);
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
   letter-spacing: -0.16px;
   color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 300ms ease-out 200ms;
 }
 
-.hero-featured-video-play:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 2px;
+.hero-featured-video.visible .hero-video-label {
+  opacity: 1;
 }
 
-/* Mobile: stack video card below content */
+.hero-video-label svg {
+  width: 7px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* Caption */
+.hero-video-caption {
+  font-family: var(--body-font-family);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  color: rgb(255 255 255 / 70%);
+  margin: 0;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 300ms ease-out 350ms, transform 300ms ease-out 350ms;
+}
+
+.hero-featured-video.visible .hero-video-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile */
 @media (width < 992px) {
   .hero-featured-video {
     position: relative;
     right: auto;
     bottom: auto;
     width: 100%;
-    max-width: 373px;
-    height: 200px;
+    max-width: 380px;
     margin-top: 24px;
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero-featured-video .hero-video-label,
+  .hero-featured-video .hero-video-caption {
+    opacity: 1;
+    transform: none;
   }
 }
 
 /* ============================================================
-   Video Modal Overlay (on "Watch full Video" click)
-   Figma: darkened hero bg with video player
+   Video Modal (click to expand)
    ============================================================ */
 
 .hero-video-modal-overlay {
@@ -336,7 +401,8 @@
   box-shadow: 0 10px 15px rgb(0 0 0 / 10%);
 }
 
-.hero-video-modal-dialog iframe {
+.hero-video-modal-dialog iframe,
+.hero-video-modal-dialog video {
   width: 100%;
   height: 100%;
   border: none;

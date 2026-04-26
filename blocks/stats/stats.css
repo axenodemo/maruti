@@ -1,7 +1,7 @@
 /* ============================================================
-   Stats Block — MSIL Corporate Design System
-   Full-width bg, statement text, scroll-animated car + stats
-   Figma: MSIL-Corporate-CC-Pt-2, node 6124:26267
+   Stats Block — Pinned section, scroll-linked car + stats
+   Car partially visible on right, moves left on scroll.
+   Stats marquee follows car position in sync.
    ============================================================ */
 
 .stats-container .stats-wrapper {
@@ -14,16 +14,25 @@
 .stats {
   position: relative;
   width: 100%;
-  min-height: 757px;
+  height: 757px;
   overflow: hidden;
   padding: 0;
 }
 
 /* ---- Background image ---- */
-.stats-bg {
+.stats-bg-row {
   position: absolute;
   inset: 0;
   z-index: 0;
+}
+
+.stats-bg-row > div {
+  padding: 0;
+}
+
+.stats-bg {
+  width: 100%;
+  height: 100%;
 }
 
 .stats-bg picture {
@@ -39,7 +48,7 @@
   object-fit: cover;
 }
 
-/* ---- Dark overlay for lower half ---- */
+/* ---- Dark overlay ---- */
 .stats-overlay {
   position: absolute;
   bottom: 0;
@@ -50,40 +59,35 @@
   background: linear-gradient(to top, rgb(0 0 0 / 50%) 0%, transparent 100%);
 }
 
-/* ---- Statement text: Roboto Light 48px/56px, white ---- */
+/* ---- Statement text — bottom-left ---- */
 .stats-statement {
-  position: relative;
+  position: absolute;
+  bottom: 120px;
+  left: 0;
   z-index: 2;
-  max-width: 1000px;
-  padding: 260px 56px 0;
+  max-width: 700px;
+  padding: 0 var(--grid-margin);
 }
 
-.stats-statement p {
+.stats-statement-text {
   font-family: var(--body-font-family);
   font-weight: 300;
-  font-size: 32px;
-  line-height: 40px;
+  font-size: 48px;
+  line-height: 56px;
   color: #fff;
   margin: 0;
 }
 
-@media (width >= 992px) {
-  .stats-statement p {
-    font-size: 48px;
-    line-height: 56px;
-  }
-}
-
-/* ---- Car image: positioned right, scroll-animated ---- */
+/* ---- Car image — positioned right, partially visible, scroll-animated ---- */
 .stats-car {
   position: absolute;
-  top: 200px;
-  right: -100px;
+  top: 50%;
+  right: -200px;
+  transform: translateY(-50%);
   z-index: 3;
   width: 797px;
   height: 349px;
   will-change: transform;
-  transition: transform 0.1s linear;
 }
 
 .stats-car picture {
@@ -99,36 +103,34 @@
   object-fit: contain;
 }
 
-/* ---- Stats Marquee: large numbers, scroll-animated ---- */
+/* ---- Stats Marquee — bottom, scroll-animated ---- */
 .stats-marquee {
   position: absolute;
-  bottom: 80px;
+  bottom: 60px;
   left: 0;
   z-index: 4;
   display: flex;
   gap: 78px;
   will-change: transform;
-  transition: transform 0.1s linear;
   white-space: nowrap;
+  padding: 0 var(--grid-margin);
 }
 
 .stats-marquee-item {
   display: flex;
   flex-direction: column;
-  gap: 38px;
+  gap: 16px;
 }
 
-/* Number: Inter Display ~140px, white */
 .stats-marquee-number {
   font-family: var(--display-font-family);
   font-weight: 400;
-  font-size: 80px;
+  font-size: 96px;
   line-height: 1;
-  letter-spacing: -2.4px;
+  letter-spacing: -4.2px;
   color: #fff;
 }
 
-/* Label: Roboto 16px/21px, white */
 .stats-marquee-label {
   font-family: var(--body-font-family);
   font-weight: 400;
@@ -138,38 +140,67 @@
   color: #fff;
 }
 
-@media (width >= 992px) {
+/* ---- Tablet ---- */
+@media (width < 1280px) {
   .stats-marquee-number {
-    font-size: 140px;
-    line-height: 152px;
-    letter-spacing: -4.2px;
-  }
-}
-
-/* ---- Mobile ---- */
-@media (width < 768px) {
-  .stats {
-    min-height: 500px;
-  }
-
-  .stats-statement {
-    padding: 120px 20px 0;
+    font-size: 72px;
+    letter-spacing: -3px;
   }
 
   .stats-car {
-    width: 400px;
-    height: 175px;
-    top: 100px;
+    width: 600px;
+    height: 263px;
+  }
+
+  .stats-statement-text {
+    font-size: 36px;
+    line-height: 44px;
+  }
+}
+
+/* ---- Mobile — vertical stack, no scroll-link ---- */
+@media (width < 768px) {
+  .stats {
+    height: auto;
+    min-height: 600px;
+    padding-bottom: 40px;
+  }
+
+  .stats-statement {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    max-width: 100%;
+    padding: 200px var(--grid-margin) 40px;
+  }
+
+  .stats-statement-text {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .stats-car {
+    position: relative;
+    top: auto;
+    right: auto;
+    transform: none;
+    width: 100%;
+    height: 200px;
+    margin: 20px 0;
   }
 
   .stats-marquee {
-    gap: 40px;
-    bottom: 40px;
+    position: relative;
+    bottom: auto;
+    left: auto;
+    flex-direction: column;
+    gap: 32px;
+    padding: 20px var(--grid-margin);
+    transform: none !important;
   }
 
   .stats-marquee-number {
     font-size: 48px;
-    line-height: 1;
-    letter-spacing: -1.4px;
+    letter-spacing: -1.5px;
   }
 }
