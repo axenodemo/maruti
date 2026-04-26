@@ -1,11 +1,12 @@
 /**
- * Stats block — scroll-hijacked 2-slide horizontal panel.
- * Slide 1: statement text (left) + car image (right)
- * Slide 2: stats counters with count-up animation
+ * Stats block — pinned section with scroll-linked car + stats marquee.
+ *
+ * On scroll: section pins, car moves horizontally from right edge to left,
+ * stats marquee follows the car position in sync.
  *
  * xwalk model (3 rows):
  *   Row 1: image (background)
- *   Row 2: carImage (aerial car)
+ *   Row 2: carImage (aerial car — partially visible on load, slides on scroll)
  *   Row 3: text (statement + stats lines as "Number | Label")
  */
 
@@ -33,21 +34,17 @@ function formatNumber(val, raw) {
   return `${Math.round(val)}`;
 }
 
-function easeOutQuad(t) {
-  return t * (2 - t);
-}
+function easeOutQuad(t) { return t * (2 - t); }
 
 function animateCounter(el, target, duration, delay) {
   const { value, suffix, raw } = parseNumber(target);
   el.textContent = '0';
-
   setTimeout(() => {
     const start = performance.now();
     function tick(now) {
       const elapsed = now - start;
       const progress = Math.min(elapsed / duration, 1);
-      const eased = easeOutQuad(progress);
-      const current = eased * value;
+      const current = easeOutQuad(progress) * value;
       el.textContent = `${formatNumber(current, raw)}${suffix}`;
       if (progress < 1) requestAnimationFrame(tick);
     }
@@ -55,81 +52,60 @@ function animateCounter(el, target, duration, delay) {
   }, delay);
 }
 
-function buildSlide1(statement, carPicture) {
-  const slide = document.createElement('div');
-  slide.className = 'stats-slide stats-slide-1';
-
-  const textWrap = document.createElement('div');
-  textWrap.className = 'stats-slide1-text';
-  if (statement) {
-    statement.classList.add('stats-statement');
-    textWrap.append(statement);
-  }
-  slide.append(textWrap);
-
-  const carWrap = document.createElement('div');
-  carWrap.className = 'stats-slide1-car';
-  if (carPicture) carWrap.append(carPicture);
-  slide.append(carWrap);
-
-  return slide;
-}
-
-function buildSlide2(stats) {
-  const slide = document.createElement('div');
-  slide.className = 'stats-slide stats-slide-2';
-
-  const grid = document.createElement('div');
-  grid.className = 'stats-counters';
+function buildStatsMarquee(stats) {
+  const marquee = document.createElement('div');
+  marquee.className = 'stats-marquee';
 
   stats.forEach((stat, i) => {
     const item = document.createElement('div');
-    item.className = 'stats-counter-item';
+    item.className = 'stats-marquee-item';
 
     const num = document.createElement('span');
-    num.className = 'stats-counter-number';
-    num.textContent = '0';
+    num.className = 'stats-marquee-number';
     num.dataset.target = stat.number;
-    num.dataset.duration = String(800 + i * 200);
     num.dataset.delay = String(i * 150);
+    num.dataset.duration = String(800 + i * 200);
+    num.textContent = stat.number;
 
     const label = document.createElement('span');
-    label.className = 'stats-counter-label';
+    label.className = 'stats-marquee-label';
     label.textContent = stat.label;
 
     item.append(num, label);
-    grid.append(item);
+    marquee.append(item);
   });
 
-  slide.append(grid);
-  return slide;
+  return marquee;
 }
 
-function buildNav(block, track, slideCount) {
-  const nav = document.createElement('div');
-  nav.className = 'stats-nav';
-
-  const prevBtn = document.createElement('button');
-  prevBtn.className = 'stats-nav-btn';
-  prevBtn.setAttribute('aria-label', 'Previous');
-  prevBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none"><path d="M15 19l-7-7 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-
-  const nextBtn = document.createElement('button');
-  nextBtn.className = 'stats-nav-btn';
-  nextBtn.setAttribute('aria-label', 'Next');
-  nextBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-
-  let current = 0;
+function setupScrollAnimation(block, carWrap, marquee) {
+  const section = block.closest('.section') || block;
+  const travelDistance = window.innerWidth * 0.8;
   let countersAnimated = false;
 
-  function goTo(idx) {
-    current = Math.max(0, Math.min(idx, slideCount - 1));
-    track.style.transform = `translateX(-${current * 100}vw)`;
+  function onScroll() {
+    const rect = section.getBoundingClientRect();
+    const sectionH = section.offsetHeight;
+    const vh = window.innerHeight;
 
-    // Trigger counter animation on slide 2
-    if (current === 1 && !countersAnimated) {
+    // Progress: 0 when top enters, 1 when bottom exits
+    const total = sectionH + vh;
+    const traveled = vh - rect.top;
+    const progress = Math.min(Math.max(traveled / total, 0), 1);
+
+    // Car: starts partially visible (30% in from right), moves left
+    const carStart = travelDistance * 0.3;
+    const carX = carStart - (progress * travelDistance);
+    carWrap.style.transform = `translateX(${carX}px)`;
+
+    // Marquee follows car but offset lower and slower
+    const marqueeX = carStart * 0.8 - (progress * travelDistance * 0.7);
+    marquee.style.transform = `translateX(${marqueeX}px)`;
+
+    // Trigger counter animation when marquee becomes visible (~60% scroll)
+    if (progress > 0.5 && !countersAnimated) {
       countersAnimated = true;
-      block.querySelectorAll('.stats-counter-number').forEach((el) => {
+      block.querySelectorAll('.stats-marquee-number').forEach((el) => {
         animateCounter(
           el,
           el.dataset.target,
@@ -137,69 +113,11 @@ function buildNav(block, track, slideCount) {
           parseInt(el.dataset.delay, 10),
         );
       });
-      // Animate labels after numbers
-      block.querySelectorAll('.stats-counter-label').forEach((el, i) => {
-        const numDuration = 800 + i * 200;
-        const numDelay = i * 150;
-        setTimeout(() => el.classList.add('visible'), numDelay + numDuration);
-      });
-    }
-
-    // Animate slide 1 elements
-    if (current === 0) {
-      block.querySelector('.stats-slide1-car')?.classList.add('visible');
-      block.querySelector('.stats-slide1-text')?.classList.add('visible');
     }
   }
 
-  prevBtn.addEventListener('click', () => goTo(current - 1));
-  nextBtn.addEventListener('click', () => goTo(current + 1));
-
-  nav.append(prevBtn, nextBtn);
-  block.append(nav);
-
-  return goTo;
-}
-
-function setupScrollHijack(block, goTo) {
-  const isMobile = window.innerWidth < 768;
-  if (isMobile) return;
-
-  let hijacked = false;
-  let scrollStart = 0;
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-        if (!hijacked) {
-          hijacked = true;
-          scrollStart = window.scrollY;
-          goTo(0);
-        }
-      }
-    });
-  }, { threshold: [0, 0.5, 1] });
-
-  observer.observe(block);
-
-  window.addEventListener('scroll', () => {
-    if (!hijacked) return;
-    const scrollDelta = window.scrollY - scrollStart;
-    const blockHeight = block.offsetHeight;
-
-    if (scrollDelta > blockHeight * 0.5) {
-      goTo(1);
-    } else {
-      goTo(0);
-    }
-
-    if (scrollDelta > blockHeight * 1.2) {
-      hijacked = false;
-    }
-    if (window.scrollY < scrollStart - 100) {
-      hijacked = false;
-    }
-  }, { passive: true });
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 }
 
 export default function decorate(block) {
@@ -231,34 +149,36 @@ export default function decorate(block) {
           const parsed = parseStats(text);
           if (parsed) stats.push(parsed);
         } else if (!statementP) {
-          statementP = p;
+          statementP = p.cloneNode(true);
         }
       });
     }
   }
-
-  // Build slides
-  const track = document.createElement('div');
-  track.className = 'stats-track';
-
-  const slide1 = buildSlide1(statementP, carPicture);
-  const slide2 = buildSlide2(stats);
-
-  track.append(slide1, slide2);
 
   // Dark overlay
   const overlay = document.createElement('div');
   overlay.className = 'stats-overlay';
   block.append(overlay);
 
-  block.append(track);
+  // Statement text (bottom-left)
+  if (statementP) {
+    const stWrap = document.createElement('div');
+    stWrap.className = 'stats-statement';
+    statementP.classList.add('stats-statement-text');
+    stWrap.append(statementP);
+    block.append(stWrap);
+  }
 
-  // Nav arrows
-  const goTo = buildNav(block, track, 2);
+  // Car image (positioned right, scroll-animated)
+  const carWrap = document.createElement('div');
+  carWrap.className = 'stats-car';
+  if (carPicture) carWrap.append(carPicture);
+  block.append(carWrap);
 
-  // Trigger slide 1 animations
-  setTimeout(() => goTo(0), 100);
+  // Stats marquee (bottom, scroll-animated)
+  const marquee = buildStatsMarquee(stats);
+  block.append(marquee);
 
-  // Scroll hijack (desktop/tablet only)
-  setupScrollHijack(block, goTo);
+  // Scroll-linked animation
+  setupScrollAnimation(block, carWrap, marquee);
 }
