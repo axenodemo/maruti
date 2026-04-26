@@ -8,13 +8,13 @@
   padding: 0;
 }
 
-/* ---- Base Hero — full viewport ---- */
+/* ---- Base Hero — full viewport (capped for UE) ---- */
 .hero {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: 100vh;
+  min-height: min(100vh, 900px);
   padding: 0 var(--grid-margin) 80px;
   overflow: hidden;
 }

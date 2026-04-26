@@ -1,6 +1,7 @@
 /* ============================================================
-   Stats Block — Scroll-hijacked 2-slide horizontal panel
-   Slide 1: statement + car | Slide 2: counter stats
+   Stats Block — Pinned section, scroll-linked car + stats
+   Car partially visible on right, moves left on scroll.
+   Stats marquee follows car position in sync.
    ============================================================ */
 
 .stats-container .stats-wrapper {
@@ -50,51 +51,25 @@
 /* ---- Dark overlay ---- */
 .stats-overlay {
   position: absolute;
-  inset: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
   z-index: 1;
   background: linear-gradient(to top, rgb(0 0 0 / 50%) 0%, transparent 100%);
 }
 
-/* ---- Track — horizontal 2-slide panel ---- */
-.stats-track {
-  position: relative;
+/* ---- Statement text — bottom-left ---- */
+.stats-statement {
+  position: absolute;
+  bottom: 120px;
+  left: 0;
   z-index: 2;
-  display: flex;
-  width: 200vw;
-  height: 100%;
-  transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.stats-slide {
-  width: 100vw;
-  height: 100%;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
+  max-width: 700px;
   padding: 0 var(--grid-margin);
-  box-sizing: border-box;
 }
 
-/* ---- Slide 1: Statement left + Car right ---- */
-.stats-slide-1 {
-  justify-content: space-between;
-  gap: 60px;
-}
-
-.stats-slide1-text {
-  flex: 1;
-  max-width: 600px;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 500ms ease-out 200ms, transform 500ms ease-out 200ms;
-}
-
-.stats-slide1-text.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-p.stats-statement {
+.stats-statement-text {
   font-family: var(--body-font-family);
   font-weight: 300;
   font-size: 48px;
@@ -103,51 +78,51 @@ p.stats-statement {
   margin: 0;
 }
 
-.stats-slide1-car {
-  flex-shrink: 0;
-  width: 500px;
-  height: 350px;
-  opacity: 0;
-  transform: translateX(80px);
-  transition: opacity 600ms ease-out 100ms, transform 600ms ease-out 100ms;
+/* ---- Car image — positioned right, partially visible, scroll-animated ---- */
+.stats-car {
+  position: absolute;
+  top: 50%;
+  right: -200px;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 797px;
+  height: 349px;
+  will-change: transform;
 }
 
-.stats-slide1-car.visible {
-  opacity: 1;
-  transform: translateX(0);
-}
-
-.stats-slide1-car picture {
+.stats-car picture {
   display: block;
   width: 100%;
   height: 100%;
 }
 
-.stats-slide1-car img {
+.stats-car img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
-/* ---- Slide 2: Stats counters ---- */
-.stats-slide-2 {
-  justify-content: center;
-}
-
-.stats-counters {
+/* ---- Stats Marquee — bottom, scroll-animated ---- */
+.stats-marquee {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  z-index: 4;
   display: flex;
   gap: 78px;
-  align-items: flex-start;
+  will-change: transform;
+  white-space: nowrap;
+  padding: 0 var(--grid-margin);
 }
 
-.stats-counter-item {
+.stats-marquee-item {
   display: flex;
   flex-direction: column;
-  gap: 38px;
+  gap: 16px;
 }
 
-.stats-counter-number {
+.stats-marquee-number {
   font-family: var(--display-font-family);
   font-weight: 400;
   font-size: 96px;
@@ -156,142 +131,76 @@ p.stats-statement {
   color: #fff;
 }
 
-.stats-counter-label {
+.stats-marquee-label {
   font-family: var(--body-font-family);
   font-weight: 400;
   font-size: 16px;
   line-height: 21px;
   letter-spacing: -0.16px;
   color: #fff;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 400ms ease-out, transform 400ms ease-out;
 }
 
-.stats-counter-label.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ---- Nav arrows — top center ---- */
-.stats-nav {
-  position: absolute;
-  top: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
-  display: flex;
-  gap: 12px;
-}
-
-.stats-nav-btn {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  border: 1.5px solid rgb(255 255 255 / 40%);
-  background: transparent;
-  color: #fff;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  transition: background-color 0.15s ease, border-color 0.15s ease;
-}
-
-.stats-nav-btn:hover {
-  background: rgb(255 255 255 / 15%);
-  border-color: rgb(255 255 255 / 70%);
-}
-
-.stats-nav-btn svg {
-  width: 20px;
-  height: 20px;
-}
-
-.stats-nav-btn:focus-visible {
-  outline: 2px solid #fff;
-  outline-offset: 2px;
-}
-
-/* ---- Tablet (~1246px) ---- */
+/* ---- Tablet ---- */
 @media (width < 1280px) {
-  .stats-counter-number {
+  .stats-marquee-number {
     font-size: 72px;
     letter-spacing: -3px;
   }
 
-  .stats-slide1-car {
-    width: 400px;
-    height: 280px;
+  .stats-car {
+    width: 600px;
+    height: 263px;
+  }
+
+  .stats-statement-text {
+    font-size: 36px;
+    line-height: 44px;
   }
 }
 
-/* ---- Mobile (390px) — vertical stack, no hijack ---- */
+/* ---- Mobile — vertical stack, no scroll-link ---- */
 @media (width < 768px) {
   .stats {
     height: auto;
     min-height: 600px;
+    padding-bottom: 40px;
   }
 
-  .stats-track {
-    width: 100%;
-    flex-direction: column;
-    height: auto;
-  }
-
-  .stats-slide {
-    width: 100%;
-    height: auto;
-    min-height: 400px;
-    flex-direction: column;
-    padding: 60px var(--grid-margin);
-  }
-
-  .stats-slide-1 {
-    flex-direction: column;
-    gap: 40px;
-  }
-
-  .stats-slide1-text {
+  .stats-statement {
+    position: relative;
+    bottom: auto;
+    left: auto;
     max-width: 100%;
-    opacity: 1;
-    transform: none;
+    padding: 200px var(--grid-margin) 40px;
   }
 
-  p.stats-statement {
+  .stats-statement-text {
     font-size: 32px;
     line-height: 40px;
   }
 
-  .stats-slide1-car {
-    width: 100%;
-    height: 200px;
-    opacity: 1;
-    transform: none;
-  }
-
-  .stats-counters {
-    flex-direction: column;
-    gap: 40px;
-  }
-
-  .stats-counter-number {
-    font-size: 48px;
-    letter-spacing: -1.5px;
-  }
-
-  .stats-counter-label {
-    opacity: 1;
-    transform: none;
-  }
-
-  .stats-nav {
+  .stats-car {
     position: relative;
     top: auto;
-    left: auto;
+    right: auto;
     transform: none;
-    justify-content: center;
-    margin-top: 24px;
+    width: 100%;
+    height: 200px;
+    margin: 20px 0;
+  }
+
+  .stats-marquee {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    flex-direction: column;
+    gap: 32px;
+    padding: 20px var(--grid-margin);
+    transform: none !important;
+  }
+
+  .stats-marquee-number {
+    font-size: 48px;
+    letter-spacing: -1.5px;
   }
 }
