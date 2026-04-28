@@ -61,6 +61,10 @@
             {
               "name": "Video Preview",
               "value": "video-preview"
+            },
+            {
+              "name": "Sub Text CTA Right Align",
+              "value": "subtext-cta-right"
             }
           ]
         }

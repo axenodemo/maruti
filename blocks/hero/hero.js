@@ -243,6 +243,34 @@ export default function decorate(block) {
     buildVideoCard(block, videoRow);
   }
 
+  // Subtext CTA Right Align variant
+  if (block.classList.contains('subtext-cta-right')) {
+    const col = textRow ? textRow.querySelector('.hero-content-inner') : null;
+    if (col) {
+      const h1 = col.querySelector('h1');
+      const right = document.createElement('div');
+      right.className = 'hero-story-right';
+
+      // Merge all button-containers into one row
+      const ctaRow = document.createElement('p');
+      ctaRow.className = 'button-container';
+
+      Array.from(col.querySelectorAll('p')).forEach((p) => {
+        if (p.classList.contains('button-container')) {
+          Array.from(p.querySelectorAll('a')).forEach((a) => ctaRow.append(a));
+          p.remove();
+        } else if (p.textContent.trim().length > 20) {
+          p.classList.add('hero-story-subtext');
+          right.append(p);
+        }
+      });
+
+      if (ctaRow.children.length > 0) right.append(ctaRow);
+      if (h1) col.append(h1);
+      col.append(right);
+    }
+  }
+
   // Entry animations
   animateHeroEntry(block);
 }
