@@ -169,6 +169,80 @@
   opacity: 0.8;
 }
 
+/* ============================================================
+   Story Variant — bottom bar: H1 left, subtext+CTAs right
+   ============================================================ */
+
+.hero.subtext-cta-right .hero-content-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 29px;
+  max-width: 1257px;
+  margin: 0 auto;
+  flex-direction: row;
+}
+
+.hero.subtext-cta-right h1 {
+  max-width: 692px;
+  flex-shrink: 0;
+}
+
+.hero-story-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 14px;
+  max-width: 477px;
+}
+
+.hero-story-subtext {
+  font-family: var(--body-font-family);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 22px;
+  color: #fff;
+  margin: 0;
+  max-width: 457px;
+  will-change: transform, opacity;
+}
+
+/* CTAs in a row, not stacked */
+.hero.subtext-cta-right .button-container {
+  gap: 12px;
+  flex-direction: row;
+  align-items: center;
+}
+
+@media (width < 1280px) {
+  .hero.subtext-cta-right h1 {
+    font-size: 48px;
+    line-height: 57.6px;
+    max-width: 500px;
+  }
+}
+
+@media (width < 768px) {
+  .hero.subtext-cta-right .hero-content-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .hero.subtext-cta-right h1 {
+    max-width: 100%;
+  }
+
+  .hero-story-right {
+    max-width: 100%;
+  }
+
+  .hero.subtext-cta-right .button-container {
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+}
+
 /* ---- Scroll Indicator — bottom center, infinite bounce ---- */
 .hero-scroll-indicator {
   position: absolute;
@@ -193,6 +267,11 @@
   color: #fff;
   text-align: center;
   white-space: nowrap;
+}
+
+/* Hide scroll indicator for subtext-cta-right variant */
+.hero.subtext-cta-right .hero-scroll-indicator {
+  display: none;
 }
 
 @keyframes hero-bounce {
