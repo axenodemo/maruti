@@ -381,5 +381,25 @@
         "description": "Statement paragraph, then stats as 'Number | Label' per line"
       }
     ]
+  },
+  {
+    "id": "timeline-item",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Photo",
+        "multi": false
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "value": "",
+        "label": "Content",
+        "valueType": "string",
+        "description": "H2: 'Year: Era Title' (e.g. '1981: The Birth of an Icon'). H3: Sub-label. P: Description."
+      }
+    ]
   }
 ]
