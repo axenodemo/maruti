@@ -21,7 +21,8 @@
       "highlights",
       "stats",
       "explore-cards",
-      "contact-cards"
+      "contact-cards",
+      "timeline"
     ]
   },
   {
@@ -73,6 +74,12 @@
     "id": "image-slider",
     "components": [
       "image-slider-slide"
+    ]
+  },
+  {
+    "id": "timeline",
+    "components": [
+      "timeline-item"
     ]
   }
 ]
